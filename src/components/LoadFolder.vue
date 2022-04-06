@@ -70,10 +70,10 @@
           });
       },
       railsImportExternalUrl(file) {
-        return 'http://192.168.1.13:3000/audio_files/' + file.itemId + '.json';
+        return 'http://link12.ddns.net:3000/audio_files/' + file.itemId + '.json';
       },
       hlsServerExternalUrl(file) {
-        return 'http://192.168.1.13:8080/hls/' + file.itemId + '.m3u8';
+        return 'http://link12.ddns.net:8080/hls/' + file.itemId + '.m3u8';
       },
       handleClick(event, file) {
         if (this.loading) return;
