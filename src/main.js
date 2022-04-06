@@ -49,7 +49,7 @@ import fetch from 'cross-fetch'
 
 let httpLink;
 httpLink = new HttpLink({
-  uri: 'https://link12.ddns.net:443/graphql',
+  uri: 'https://link12.ddns.net:9090/graphql',
 })
 
 // Cache implementation

@@ -22,7 +22,7 @@
         </v-col>
         <v-col>
           <div v-for="image in images">
-            <img :src="'https://link12.ddns.net:443' + image.thumbUrl">
+            <img :src="'https://link12.ddns.net:9090' + image.thumbUrl">
           </div>
         </v-col>
       </v-row>
@@ -70,7 +70,7 @@
           });
       },
       railsImportExternalUrl(file) {
-        return 'http://192.168.1.13:3002/audio_files/' + file.itemId + '.json';
+        return 'http://192.168.1.13:3000/audio_files/' + file.itemId + '.json';
       },
       hlsServerExternalUrl(file) {
         return 'http://192.168.1.13:8080/hls/' + file.itemId + '.m3u8';
