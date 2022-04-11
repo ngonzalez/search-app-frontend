@@ -69,29 +69,29 @@
             this.$toast.warning(error);
           });
       },
-      railsImportExternalUrl(file) {
-        return 'http://192.168.1.13:3000/audio_files/' + file.itemId + '.json';
+      railsImportExternalUrl(itemId) {
+        return 'https://link12.ddns.net:3000/audio_files/' + itemId + '.json';
       },
-      hlsServerExternalUrl(file) {
-        return 'http://192.168.1.13:8080/hls/' + file.itemId + '.m3u8';
+      hlsServerExternalUrl(itemId) {
+        return 'https://link12.ddns.net:3000/hls/' + itemId + '.m3u8';
       },
       handleClick(event, file) {
         if (this.loading) return;
         this.loading = true;
         this.intervals[file.id] = setInterval(() => {
-          axios.get(this.railsImportExternalUrl(file))
+          axios.get(this.railsImportExternalUrl(file.itemId))
           .then((response) => _get(response, 'data', {}))
           .then((response) => {
             if (response.m3u8_exists) {
               this.loading = false;
               clearInterval(this.intervals[file.id]);
-              window.location = this.hlsServerExternalUrl(file);
+              window.location = this.hlsServerExternalUrl(file.itemId);
             }
           })
           .catch((error) => {
             this.$toast.warning(error);
           })
-        }, 2000)
+        }, 2000);
       },
     },
   };
