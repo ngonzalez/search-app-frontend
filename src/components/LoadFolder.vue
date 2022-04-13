@@ -101,13 +101,13 @@
         if (this.loading) return;
         this.loading = true;
         this.intervals[itemId] = setInterval(() => {
-          axios.get(this.railsImportExternalUrl(temId))
+          axios.get(this.railsImportExternalUrl(itemId))
           .then((response) => _get(response, 'data', {}))
           .then((response) => {
             if (response.m3u8_exists) {
               this.loading = false;
               clearInterval(this.intervals[itemId]);
-              window.location = this.hlsServerExternalUrl(temId);
+              window.location = this.hlsServerExternalUrl(itemId);
             }
           })
           .catch((error) => {
