@@ -103,27 +103,39 @@
       hlsServerExternalUrl(itemId) {
         return 'https://link12.ddns.net:3000/hls/' + itemId + '.m3u8';
       },
-      handleClick(event, itemId) {
-        if (this.loading) return;
+      getPlayer(itemId) {
+        return document.getElementById('player-' + itemId);
+      },
+      buildIframe(url) {
+        let iframe = document.createElement('iframe');
+        iframe.src = url;
+        iframe.height = 50;
+        return iframe;
+      },
+      clearIframes() {
         _.map(document.getElementsByClassName('video'), function(el) {
           el.style.display = 'none';
           _.map(el.getElementsByTagName('iframe'), function(iframe) {
             iframe.src = '';
           });
         });
+      },
+      handleClick(event, itemId) {
+        if (this.loading) return;
         this.loading = true;
-        let player = document.getElementById('player-' + itemId);
-        player.style.display = 'block';
+        this.clearIframes();
+        this.getPlayer(itemId).style.display = 'block';
         this.intervals[itemId] = setInterval(() => {
           axios.get(this.railsImportExternalUrl(itemId))
           .then((response) => _get(response, 'data', {}))
           .then((response) => {
             if (response.m3u8_exists) {
               clearInterval(this.intervals[itemId]);
-              let iframe = document.createElement('iframe');
-              iframe.src = this.hlsServerExternalUrl(itemId);
-              iframe.height = 50;
-              player.appendChild(iframe);
+              this.getPlayer(itemId).appendChild(
+                this.buildIframe(
+                  this.hlsServerExternalUrl(itemId)
+                )
+              );
               this.loading = false;
             }
           })
