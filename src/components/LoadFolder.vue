@@ -16,14 +16,15 @@
               <v-list>
                 <v-list-item link @click="handleClick($event, itemId)">
                   <v-list-item-action class="ma-4 pa-4">
-                    <v-icon>mdi-arrow-right-drop-circle-outline</v-icon>
+                    <v-icon>mdi-minus</v-icon>
                   </v-list-item-action>
 
                   <v-list-item-content>
                     <v-list-item-title class="text-h6">
                       {{ dataUrl }}
                     </v-list-item-title>
-                    <v-list-item-subtitle>{{ id }}</v-list-item-subtitle>
+                    <v-list-item-subtitle v-bind:id="'player-' + itemId">
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -54,6 +55,7 @@
   import { mapMutations } from 'vuex';
   import showItem from '../mutations/showItem';
   import FilesList from '../components/FilesList.vue';
+  import _ from 'lodash';
   import _get from 'lodash/get';
   import axios from 'axios';
 
@@ -99,6 +101,7 @@
       },
       handleClick(event, itemId) {
         if (this.loading) return;
+        if (document.getElementById('player-' + itemId).getElementsByTagName('iframe').length > 0) return;
         this.loading = true;
         this.intervals[itemId] = setInterval(() => {
           axios.get(this.railsImportExternalUrl(itemId))
@@ -107,7 +110,10 @@
             if (response.m3u8_exists) {
               this.loading = false;
               clearInterval(this.intervals[itemId]);
-              window.location = this.hlsServerExternalUrl(itemId);
+              let iframe = document.createElement('iframe');
+              iframe.src = this.hlsServerExternalUrl(itemId);
+              // iframe.style.display = 'none';
+              document.getElementById('player-' + itemId).appendChild(iframe);
             }
           })
           .catch((error) => {

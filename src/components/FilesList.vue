@@ -1,7 +1,7 @@
 <template>
   <ul>
     <li v-if="!audioFiles.length">
-      Loading...
+      {{ $t('loading') }}
     </li>
     <li v-for="item in audioFiles">
       <slot name="item" v-bind="item" />
