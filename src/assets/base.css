@@ -73,3 +73,16 @@ table thead th {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.v-list-item .video {
+  height: 50px;
+}
+
+.v-list-item .listItem {
+  height: 100px;
+}
+
+.v-list-item-title {
+  height: 25px;
+  margin: 0 20px;
+}

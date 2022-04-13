@@ -1,10 +1,5 @@
 <template>
   <v-card>
-    <v-progress-linear
-      indeterminate
-      v-show="loading"
-      color="blue darken-2">
-    </v-progress-linear>
     <h3 class="ma-4 pa-4">
       {{ folder.name }}
     </h3>
@@ -15,16 +10,25 @@
             <template #item="{ id, itemId, dataUrl }">
               <v-list>
                 <v-list-item link @click="handleClick($event, itemId)">
-                  <v-list-item-action class="ma-4 pa-4">
-                    <v-icon>mdi-minus</v-icon>
+                  <v-list-item-action>
+                    <v-icon style="color:#000;">mdi-console-line</v-icon>
                   </v-list-item-action>
 
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6">
+                  <v-list-item-content class="listItem">
+                    <v-list-item-title>
                       {{ dataUrl }}
                     </v-list-item-title>
-                    <v-list-item-subtitle v-bind:id="'player-' + itemId">
-                    </v-list-item-subtitle>
+
+                    <v-list-item class="video"
+                      v-bind:id="'player-' + itemId">
+                      <v-progress-linear
+                        indeterminate
+                        reverse
+                        stream
+                        v-show="loading"
+                        color="yellow">
+                      </v-progress-linear>
+                    </v-list-item>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -101,19 +105,26 @@
       },
       handleClick(event, itemId) {
         if (this.loading) return;
-        if (document.getElementById('player-' + itemId).getElementsByTagName('iframe').length > 0) return;
+        _.map(document.getElementsByClassName('video'), function(el) {
+          el.style.display = 'none';
+          _.map(el.getElementsByTagName('iframe'), function(iframe) {
+            iframe.src = '';
+          });
+        });
         this.loading = true;
+        let player = document.getElementById('player-' + itemId);
+        player.style.display = 'block';
         this.intervals[itemId] = setInterval(() => {
           axios.get(this.railsImportExternalUrl(itemId))
           .then((response) => _get(response, 'data', {}))
           .then((response) => {
             if (response.m3u8_exists) {
-              this.loading = false;
               clearInterval(this.intervals[itemId]);
               let iframe = document.createElement('iframe');
               iframe.src = this.hlsServerExternalUrl(itemId);
-              // iframe.style.display = 'none';
-              document.getElementById('player-' + itemId).appendChild(iframe);
+              iframe.height = 50;
+              player.appendChild(iframe);
+              this.loading = false;
             }
           })
           .catch((error) => {
