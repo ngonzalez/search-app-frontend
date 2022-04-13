@@ -10,37 +10,39 @@
     v-model="searchQuery"
     @keydown.enter="handleSearchFromInput">
   </v-text-field>
-  <div v-if="hasResults">
-    <v-table>
-      <thead>
-        <tr>
-          <th>
-            <span>{{ $t('search.title_name') }}</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in searchResponse.folders" :key="item.name">
-          <td class="ma-6 pa-6">
-            <span class="group pa-2 teal">
-              <v-icon color="blue darken-2">mdi-folder-open</v-icon>
-            </span>
-            <router-link :to="{ name: 'show', params: { id: item.dataUrl }}">{{ item.name }}</router-link>
-          </td>
-        </tr>
-      </tbody>
-    </v-table>
-    <v-pagination
-       class="pa-2 ma-2"
-       color="blue darken-2"
-       :size="10"
-       :show-first-last-page="true"
-       :total-visible="10"
-       v-model:model-value="searchResponse.currentPage"
-       v-model:length="searchResponse.totalPages"
-       @update:modelValue="handleSearchFromPagination">
-    </v-pagination>
-  </div>
+  <v-container fluid v-if="hasResults">
+    <v-row>
+      <v-col>
+        <SearchResults>
+          <template #item="{ id, dataUrl, name }">
+            <v-list>
+              <v-list-item link @click="handleClick($event, dataUrl)">
+                <v-list-item-action>
+                  <v-icon style="color:#000;">mdi-folder-open</v-icon>
+                </v-list-item-action>
+
+                <v-list-item-content class="listItem">
+                  <v-list-item-title>
+                    {{ name }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </template>
+        </SearchResults>
+        <v-pagination
+           class="pa-2 ma-2"
+           color="blue darken-2"
+           :size="10"
+           :show-first-last-page="true"
+           :total-visible="10"
+           v-model:model-value="searchResponse.currentPage"
+           v-model:length="searchResponse.totalPages"
+           @update:modelValue="handleSearchFromPagination">
+        </v-pagination>
+      </v-col>
+    </v-row>
+  </v-container>
   <div v-else>
     <h5 class="pa-5">
       {{ $t('search.no_results') }}
@@ -50,11 +52,13 @@
 
 <script>
   import { mapMutations } from 'vuex';
+  import SearchResults from '../components/SearchResults.vue';
   import search from '../mutations/search';
   import _get from 'lodash/get';
 
   export default {
     name: 'SearchTable',
+    components: { SearchResults },
     data() {
       return {
         currentPage: 1,
@@ -83,6 +87,9 @@
             this.$toast.warning(error);
           });
       },
+      handleClick(event, dataUrl) {
+        this.$router.push(dataUrl);
+      }
     },
   };
 </script>
