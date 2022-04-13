@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <tr v-for="item in searchResponse.folders" :key="item.name">
-          <td class="pa-3">
+          <td class="ma-6 pa-6">
             <span class="group pa-2 teal">
               <v-icon color="blue darken-2">mdi-folder-open</v-icon>
             </span>

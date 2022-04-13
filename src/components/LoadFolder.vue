@@ -5,24 +5,44 @@
       v-show="loading"
       color="blue darken-2">
     </v-progress-linear>
-    <v-container fluid>
-      <v-row dense>
+    <h3 class="ma-4 pa-4">
+      {{ folder.name }}
+    </h3>
+    <v-container fluid class="ma-4 pa-4">
+      <v-row>
         <v-col>
-          <h4 class="ma-2 pa-2">
-            {{ folder.name }}
-          </h4>
-          <br />
-          <ol v-for="file in audioFiles">
-            <li @click="handleClick($event, file)">
-              <span class="cursor-pointer">
-                {{ file.dataUrl }}
-              </span>
-            </li>
-          </ol>
+          <FilesList>
+            <template #item="{ id, itemId, dataUrl }">
+              <v-list>
+                <v-list-item link @click="handleClick($event, file)">
+                  <v-list-item-action class="ma-4 pa-4">
+                    <v-icon>mdi-arrow-right-drop-circle-outline</v-icon>
+                  </v-list-item-action>
+
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h6">
+                      {{ dataUrl }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>{{ id }}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </template>
+          </FilesList>
         </v-col>
         <v-col>
-          <div v-for="image in images">
-            <img :src="'https://link12.ddns.net:9090' + image.thumbUrl">
+          <div v-if="hasImages">
+            <v-carousel
+              cycle
+              height="500"
+              hide-delimiter-background
+              show-arrows-on-hover>
+
+              <v-carousel-item
+                v-for="image in images"
+                :src="'https://link12.ddns.net:9090' + image.thumbUrl">
+              </v-carousel-item>
+            </v-carousel>
           </div>
         </v-col>
       </v-row>
@@ -33,11 +53,13 @@
 <script>
   import { mapMutations } from 'vuex';
   import showItem from '../mutations/showItem';
+  import FilesList from '../components/FilesList.vue';
   import _get from 'lodash/get';
   import axios from 'axios';
 
   export default {
     name: 'LoadFolder',
+    components: { FilesList },
     created() {
       this.emptyStore();
       this.loadFolder();
