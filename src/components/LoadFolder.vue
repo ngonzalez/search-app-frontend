@@ -14,7 +14,7 @@
           <FilesList>
             <template #item="{ id, itemId, dataUrl }">
               <v-list>
-                <v-list-item link @click="handleClick($event, file)">
+                <v-list-item link @click="handleClick($event, itemId)">
                   <v-list-item-action class="ma-4 pa-4">
                     <v-icon>mdi-arrow-right-drop-circle-outline</v-icon>
                   </v-list-item-action>
@@ -97,17 +97,17 @@
       hlsServerExternalUrl(itemId) {
         return 'https://link12.ddns.net:3000/hls/' + itemId + '.m3u8';
       },
-      handleClick(event, file) {
+      handleClick(event, itemId) {
         if (this.loading) return;
         this.loading = true;
-        this.intervals[file.id] = setInterval(() => {
-          axios.get(this.railsImportExternalUrl(file.itemId))
+        this.intervals[itemId] = setInterval(() => {
+          axios.get(this.railsImportExternalUrl(temId))
           .then((response) => _get(response, 'data', {}))
           .then((response) => {
             if (response.m3u8_exists) {
               this.loading = false;
-              clearInterval(this.intervals[file.id]);
-              window.location = this.hlsServerExternalUrl(file.itemId);
+              clearInterval(this.intervals[itemId]);
+              window.location = this.hlsServerExternalUrl(temId);
             }
           })
           .catch((error) => {
