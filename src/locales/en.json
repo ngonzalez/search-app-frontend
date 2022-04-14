@@ -10,7 +10,8 @@
     },
     "search": {
       "title_name": "Name",
-      "no_results": "No results found"
+      "no_results": "No results found",
+      "input_label": "Search"
     }
   }
 }

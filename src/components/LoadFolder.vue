@@ -1,5 +1,5 @@
 <template>
-  <v-card class="container">
+  <v-card class="container" elevation=5>
     <v-container fluid class="ma-4 pa-4">
       <v-row>
         <v-col cols=10>
@@ -9,7 +9,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols=5 class="ma-5 pa-5 scrollList">
+        <v-col cols=6 class="ma-5 pa-5 scrollList">
           <FilesList>
             <template #item="{ id, itemId, dataUrl }">
               <v-list>
@@ -42,7 +42,7 @@
           <a-affix :style="{ position: 'sticky', top: 0 }" v-if="hasImages">
             <v-carousel
               cycle
-              height="300"
+              height="320"
               hide-delimiter-background
               show-arrows-on-hover>
 
@@ -125,6 +125,7 @@
       },
       handleClick(event, itemId) {
         if (this.loading) return;
+        if (this.getPlayer(itemId).getElementsByTagName('iframe').length > 0) return;
         this.loading = true;
         this.clearIframes();
         this.getPlayer(itemId).style.display = 'block';
