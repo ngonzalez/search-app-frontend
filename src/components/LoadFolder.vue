@@ -1,21 +1,22 @@
 <template>
-  <v-card>
-    <h3 class="ma-4 pa-4">
-      {{ folder.name }}
-    </h3>
+  <v-card class="container">
     <v-container fluid class="ma-4 pa-4">
       <v-row>
-        <v-col>
+        <v-col cols=10>
+          <h4>
+            {{ folder.name }}
+          </h4>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols=5 class="ma-5 pa-5" style="height:1000px; overflow-x:hidden; overflow-y:scroll; width:100%;">
           <FilesList>
             <template #item="{ id, itemId, dataUrl }">
               <v-list>
                 <v-list-item link @click="handleClick($event, itemId)">
-                  <v-list-item-action>
-                    <v-icon style="color:#000;">mdi-console-line</v-icon>
-                  </v-list-item-action>
-
                   <v-list-item-content class="listItem">
                     <v-list-item-title>
+                      <v-icon style="color:#000;">mdi-console-line</v-icon>
                       {{ dataUrl }}
                     </v-list-item-title>
 
@@ -31,15 +32,16 @@
                     </v-list-item>
                   </v-list-item-content>
                 </v-list-item>
+                <v-divider inset></v-divider>
               </v-list>
             </template>
           </FilesList>
         </v-col>
-        <v-col>
-          <div v-if="hasImages">
+        <v-col cols=5 class="ma-5 pa-5">
+          <a-affix :style="{ position: 'sticky', top: 0 }" v-if="hasImages">
             <v-carousel
               cycle
-              height="500"
+              height="300"
               hide-delimiter-background
               show-arrows-on-hover>
 
@@ -48,7 +50,7 @@
                 :src="'https://link12.ddns.net:9090' + image.thumbUrl">
               </v-carousel-item>
             </v-carousel>
-          </div>
+          </a-affix>
         </v-col>
       </v-row>
     </v-container>
