@@ -100,20 +100,13 @@ a:hover {
   display: none;
 }
 
-/* Home Page List Elements */
-.v-list > .v-list-item .listItemHome {
-  width: 100%;
-  text-align: left;
-}
-
 /* Icons */
 .v-list > .v-list-item .v-icon {
-  margin: 0 30px;
+  margin: 0 20px;
 }
 
 /* Item Display Page List Elements */
 .v-list > .v-list-item .listItem {
-  height: 70px auto !important;
   width: 100%;
   min-width: 400px;
   text-align: left;
@@ -122,18 +115,9 @@ a:hover {
   box-shadow: 0 0 5px #3F51B5 !important;
 }
 
-.v-list-item--density-default.v-list-item--one-line {
- min-height: auto !important;
-}
-
-/* title */
-.v-list > .v-list-item-title {
-  padding: 0 5px;
-  margin: 0 5px;
-}
-
 /* content */
-.v-list > .v-list-item .video {
+.v-list > .v-list-item .listItem .video {
+  display: none;
   text-align: center;
 }
 
@@ -148,3 +132,4 @@ a:hover {
 hr {
   border: 1px solid #000 !important;
 }
+ 

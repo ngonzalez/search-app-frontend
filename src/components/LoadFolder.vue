@@ -1,60 +1,49 @@
 <template>
   <v-card class="container" elevation=5>
-    <v-container fluid>
-      <v-row align="center" justify="center">
-        <v-col cols=10>
-          <v-breadcrumbs :items="breadcrumbs">
-            <template v-slot:divider>
-              <v-icon>mdi-forward</v-icon>
-            </template>
-          </v-breadcrumbs>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols=6 class="scrollList">
-          <FilesList>
-            <template #item="{ id, itemId, dataUrl }">
-              <v-list>
-                <v-list-item link @click="handleClick($event, itemId)" elevation>
-                  <v-list-item-content class="listItem pa-5">
-                    <v-list-item-title>
-                      <v-icon>mdi-console-line</v-icon>
-                      {{ dataUrl }}
-                    </v-list-item-title>
+    <v-container>
+      <v-breadcrumbs :items="breadcrumbs" align="center" justify="center">
+        <template v-slot:divider>
+          <v-icon>mdi-chevron-right</v-icon>
+        </template>
+      </v-breadcrumbs>
+      <a-affix :style="{ position: 'sticky', top: 0 }" v-if="hasImages">
+        <v-carousel
+          cycle
+          height="320"
+          hide-delimiter-background
+          show-arrows-on-hover>
 
-                    <v-list-item class="video" v-bind:id="'player-' + itemId">
-                      <v-progress-linear
-                        indeterminate
-                        reverse
-                        stream
-                        v-show="loading"
-                        class="ma-5"
-                        color="blue darken-2">
-                      </v-progress-linear>
-                    </v-list-item>
-                  </v-list-item-content>
+          <v-carousel-item
+            v-for="image in images"
+            :src="'https://link12.ddns.net:9090' + image.thumbUrl">
+          </v-carousel-item>
+        </v-carousel>
+      </a-affix>
+      <FilesList>
+        <template #item="{ id, itemId, dataUrl }">
+          <v-list>
+            <v-list-item link @click="handleClick($event, itemId)" elevation>
+              <v-list-item-content class="listItem pa-1 ma-1">
+                <v-list-item-title>
+                  <v-icon>mdi-console-line</v-icon>
+                  {{ dataUrl }}
+                </v-list-item-title>
+
+                <v-list-item class="video" v-bind:id="'player-' + itemId">
+                  <v-progress-linear
+                    indeterminate
+                    reverse
+                    stream
+                    v-show="loading"
+                    class="pa-1 ma-1"
+                    color="blue">
+                  </v-progress-linear>
                 </v-list-item>
-                <v-divider inset></v-divider>
-              </v-list>
-            </template>
-          </FilesList>
-        </v-col>
-        <v-col cols=5 class="ma-5 pa-5">
-          <a-affix :style="{ position: 'sticky', top: 0 }" v-if="hasImages">
-            <v-carousel
-              cycle
-              height="320"
-              hide-delimiter-background
-              show-arrows-on-hover>
-
-              <v-carousel-item
-                v-for="image in images"
-                :src="'https://link12.ddns.net:9090' + image.thumbUrl">
-              </v-carousel-item>
-            </v-carousel>
-          </a-affix>
-        </v-col>
-      </v-row>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </template>
+      </FilesList>
     </v-container>
   </v-card>
 </template>
@@ -121,7 +110,7 @@
       buildIframe(url) {
         let iframe = document.createElement('iframe');
         iframe.src = url;
-        iframe.height = 50;
+        iframe.height = 60;
         return iframe;
       },
       clearIframes() {
