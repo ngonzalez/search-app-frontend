@@ -45,34 +45,10 @@ a:hover {
   cursor: pointer;
 }
 
-/* Vertical scroll list */
-.scrollList {
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.scrollList::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.scrollList {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-
 /* Main container */
 .v-card {
   background: #0c0F0f;
   margin: 40px auto !important;
-}
-
-/* title */
-.v-card h4 {
-  color: #555;
 }
 
 /* content */
@@ -83,6 +59,7 @@ a:hover {
   align-items: flex-start;
 }
 
+/* no results */
 .v-card .v-row.noResults {
   color: #90A4AE;
 }
@@ -94,12 +71,6 @@ a:hover {
   background: #0c0F0f;
 }
 
-/* Lists Active Element */
-.v-list-item--active:hover.v-list-item__overlay,
-.v-list-item--active .v-list-item__overlay {
-  display: none;
-}
-
 /* Icons */
 .v-list > .v-list-item .v-icon {
   margin: 0 20px;
@@ -108,6 +79,8 @@ a:hover {
 /* content */
 .v-list > .v-list-item .video {
   display: none;
+  height: 60px;
+  width: 250px;
 }
 
 .v-list-item-title {
@@ -127,5 +100,7 @@ hr {
 }
 
 iframe {
+  display: block;
   height: 60px;
+  width: 250px;
 }

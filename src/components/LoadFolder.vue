@@ -24,7 +24,7 @@
           </v-carousel>
         </v-col>
       </v-row>
-      <v-row class="ma-6 pa-6">
+      <v-row class="ma-2 pa-2">
         <v-col cols="12">
           <FilesList>
             <template #item="{ id, itemId, dataUrl }">
