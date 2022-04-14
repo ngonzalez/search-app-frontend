@@ -29,6 +29,7 @@
                         reverse
                         stream
                         v-show="loading"
+                        class="ma-5"
                         color="blue darken-2">
                       </v-progress-linear>
                     </v-list-item>
@@ -98,7 +99,7 @@
           .then((response) => {
             this.setResponse(response);
           }).catch((error) => {
-            this.$toast.warning(error);
+            this.$toast.warning($t('error.uknonwn'));
           });
       },
       railsImportExternalUrl(itemId) {
@@ -149,7 +150,7 @@
             }
           })
           .catch((error) => {
-            this.$toast.warning(error);
+            this.$toast.warning($t('error.uknonwn'));
           })
         }, 2000);
       },

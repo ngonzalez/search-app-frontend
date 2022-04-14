@@ -103,6 +103,10 @@ a:hover {
   text-align: left;
 }
 
+.v-row.no-results {
+  color: #90A4AE;
+}
+
 /* Icons */
 .v-list > .v-list-item .v-icon {
   margin: 0 30px;

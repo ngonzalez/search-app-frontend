@@ -1,6 +1,6 @@
 <template>
   <v-card class="container" elevation=5>
-    <v-container fluid v-if="hasResults">
+    <v-container fluid>
       <v-row>
         <v-col cols=12>
           <v-text-field
@@ -17,7 +17,7 @@
           </v-text-field>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-if="hasResults">
         <v-col cols=12>
           <SearchResults>
             <template #item="{ id, dataUrl, name }">
@@ -38,7 +38,12 @@
           </SearchResults>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-if="!hasResults" align="center" justify="center" class="no-results">
+        <v-col cols=12>
+          {{ $t('search.no_results') }}
+        </v-col>
+      </v-row>
+      <v-row align="center" justify="center">
         <v-col cols=12 class="ma-5 pa-5">
           <v-pagination
             color="blue darken-2"
@@ -49,15 +54,6 @@
             v-model:length="searchResponse.totalPages"
             @update:modelValue="handleSearchFromPagination">
           </v-pagination>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container fluid v-else>
-      <v-row>
-        <v-col cols=12>
-          <h5 class="pa-5">
-            {{ $t('search.no_results') }}
-          </h5>
         </v-col>
       </v-row>
     </v-container>
@@ -98,7 +94,7 @@
           .then((response) => {
             this.setSearchResponse(response);
           }).catch((error) => {
-            this.$toast.warning(error);
+            this.$toast.warning($t('error.uknonwn'));
           });
       },
       handleClick(event, dataUrl) {
