@@ -1,7 +1,7 @@
 <template>
   <v-card class="container" elevation=5>
-    <v-container fluid class="ma-4 pa-4">
-      <v-row>
+    <v-container fluid>
+      <v-row align="center" justify="center">
         <v-col cols=10>
           <h4>
             {{ folder.name }}
@@ -9,21 +9,18 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols=6 class="pa-5 scrollList">
+        <v-col cols=6 class="scrollList">
           <FilesList>
             <template #item="{ id, itemId, dataUrl }">
               <v-list>
                 <v-list-item link @click="handleClick($event, itemId)" elevation>
-                  <v-list-item-content class="pa-5 listItem">
+                  <v-list-item-content class="listItem pa-5">
                     <v-list-item-title>
                       <v-icon>mdi-console-line</v-icon>
                       {{ dataUrl }}
                     </v-list-item-title>
 
-                    <v-list-item
-                      class="video"
-                      v-bind:id="'player-' + itemId">
-
+                    <v-list-item class="video" v-bind:id="'player-' + itemId">
                       <v-progress-linear
                         indeterminate
                         reverse

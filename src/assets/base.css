@@ -76,12 +76,15 @@ a:hover {
 }
 
 /* content */
-.v-card .container {
+.v-card.container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: flex-start;
-  border: 1px solid #000;
+}
+
+.v-card .v-row.noResults {
+  color: #90A4AE;
 }
 
 /* Lists */
@@ -101,10 +104,6 @@ a:hover {
 .v-list > .v-list-item .listItemHome {
   width: 100%;
   text-align: left;
-}
-
-.v-row.no-results {
-  color: #90A4AE;
 }
 
 /* Icons */
@@ -134,7 +133,7 @@ a:hover {
 
 /* content */
 .v-list > .v-list-item .video {
-  text-align: left;
+  text-align: center;
 }
 
 /* separations */

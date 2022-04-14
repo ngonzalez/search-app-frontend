@@ -38,7 +38,7 @@
           </SearchResults>
         </v-col>
       </v-row>
-      <v-row v-if="!hasResults" align="center" justify="center" class="no-results">
+      <v-row v-if="!hasResults" align="center" justify="center" class="noResults">
         <v-col cols=12>
           {{ $t('search.no_results') }}
         </v-col>
