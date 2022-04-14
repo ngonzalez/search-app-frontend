@@ -9,7 +9,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols=5 class="ma-5 pa-5" style="height:1000px; overflow-x:hidden; overflow-y:scroll; width:100%;">
+        <v-col cols=5 class="ma-5 pa-5 scrollList">
           <FilesList>
             <template #item="{ id, itemId, dataUrl }">
               <v-list>
@@ -22,6 +22,7 @@
 
                     <v-list-item class="video"
                       v-bind:id="'player-' + itemId">
+
                       <v-progress-linear
                         indeterminate
                         reverse
