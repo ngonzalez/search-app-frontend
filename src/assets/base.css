@@ -51,13 +51,19 @@ a:hover {
   padding: 0;
 }
 
+.v-list-item .listItemHome {
+  height: 30px;
+  width: 100%;
+  text-align: left;
+}
+
 .v-list-item .video {
   height: 50px;
   text-align: left;
 }
 
 .v-list-item .listItem {
-  height: 100px;
+  height: 80px;
   width: 100%;
   text-align: left;
 }
@@ -72,7 +78,6 @@ a:hover {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: flex-start;
-  background: #333;
 }
 
 .v-divider--inset:not(.v-divider--vertical) {

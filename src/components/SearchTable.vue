@@ -12,7 +12,7 @@
   </v-text-field>
   <v-container fluid v-if="hasResults">
     <v-row>
-      <v-col>
+      <v-col cols=11>
         <SearchResults>
           <template #item="{ id, dataUrl, name }">
             <v-list>
@@ -21,7 +21,7 @@
                   <v-icon style="color:#000;">mdi-folder-open</v-icon>
                 </v-list-item-action>
 
-                <v-list-item-content class="listItem">
+                <v-list-item-content class="listItemHome">
                   <v-list-item-title>
                     {{ name }}
                   </v-list-item-title>
