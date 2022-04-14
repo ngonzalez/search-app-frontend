@@ -24,6 +24,10 @@ a:hover {
   color: #1976D2;
 }
 
+hr {
+  border: 2px solid #333 !important;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -63,14 +67,15 @@ a:hover {
 }
 
 .v-list-item .listItem {
-  height: 80px;
+  height: 100px;
   width: 100%;
   text-align: left;
 }
 
 .v-list-item-title {
-  height: 25px;
-  margin: 0 20px;
+  height: 30px;
+  padding: 0 5px;
+  margin: 0 5px;
 }
 
 .container {
