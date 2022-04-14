@@ -3,9 +3,11 @@
     <v-container fluid>
       <v-row align="center" justify="center">
         <v-col cols=10>
-          <h4>
-            {{ folder.name }}
-          </h4>
+          <v-breadcrumbs :items="breadcrumbs">
+            <template v-slot:divider>
+              <v-icon>mdi-forward</v-icon>
+            </template>
+          </v-breadcrumbs>
         </v-col>
       </v-row>
       <v-row>
@@ -71,10 +73,13 @@
     created() {
       this.emptyStore();
       this.loadFolder();
+      this.breadcrumbs = [];
+      this.addBreadcrumb(this.$t('home.title'), '/');
     },
     data: {
       intervals: {},
       loading: false,
+      breadcrumbs: [],
     },
     methods: {
       ...mapMutations(['setFolder', 'setAudioFiles', 'setImages']),
@@ -88,6 +93,13 @@
         this.setAudioFiles(response.audioFiles);
         this.setImages(response.images);
       },
+      addBreadcrumb(text, href) {
+        this.breadcrumbs.push({
+          text: text,
+          disabled: false,
+          href: href
+        });
+      },
       loadFolder() {
         showItem({
           apollo: this.$apollo,
@@ -95,6 +107,7 @@
         }).then((response) => _get(response, 'data.showItem', {}))
           .then((response) => {
             this.setResponse(response);
+            this.addBreadcrumb(this.folder.name, this.folder.dataUrl);
           }).catch((error) => {
             this.$toast.warning($t('error.uknonwn'));
           });
