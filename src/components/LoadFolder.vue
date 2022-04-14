@@ -44,13 +44,13 @@
                         indeterminate
                         reverse
                         stream
-                        class="ma-1"
                         v-show="loading"
                         color="blue">
                       </v-progress-linear>
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
+                <v-divider inset></v-divider>
               </v-list>
             </template>
           </FilesList>

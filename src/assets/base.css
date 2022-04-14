@@ -108,7 +108,10 @@ a:hover {
 /* content */
 .v-list > .v-list-item .video {
   display: none;
-  text-align: center;
+}
+
+.v-list-item-title {
+  text-align: left;
 }
 
 /* separations */
@@ -119,6 +122,9 @@ a:hover {
   padding: 0;
 }
 
+hr {
+  border-top: 1px solid #444 !important;
+}
 
 iframe {
   height: 60px;
