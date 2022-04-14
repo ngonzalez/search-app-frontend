@@ -115,6 +115,7 @@ a:hover {
 .v-list > .v-list-item .listItem {
   height: 70px auto !important;
   width: 100%;
+  min-width: 400px;
   text-align: left;
   background: #000;
   border-radius: 5px;
@@ -137,13 +138,13 @@ a:hover {
 }
 
 /* separations */
-hr {
-  border: 1px solid #000 !important;
-}
-
 .v-divider--inset:not(.v-divider--vertical) {
   max-width: calc(100% - 0px);
   margin-inline-start: 0px;
   margin: 0;
   padding: 0;
+}
+
+hr {
+  border: 1px solid #000 !important;
 }
