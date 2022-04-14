@@ -1,7 +1,5 @@
 <template>
-  <v-container fluid>
-    <SearchTable></SearchTable>
-  </v-container>
+  <SearchTable></SearchTable>
 </template>
 
 <script>

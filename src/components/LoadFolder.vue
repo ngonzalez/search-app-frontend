@@ -9,18 +9,19 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols=6 class="ma-5 pa-5 scrollList">
+        <v-col cols=6 class="pa-5 scrollList">
           <FilesList>
             <template #item="{ id, itemId, dataUrl }">
               <v-list>
-                <v-list-item link @click="handleClick($event, itemId)">
-                  <v-list-item-content class="listItem">
+                <v-list-item link @click="handleClick($event, itemId)" elevation>
+                  <v-list-item-content class="pa-5 listItem">
                     <v-list-item-title>
-                      <v-icon style="color:#000;">mdi-console-line</v-icon>
+                      <v-icon>mdi-console-line</v-icon>
                       {{ dataUrl }}
                     </v-list-item-title>
 
-                    <v-list-item class="video"
+                    <v-list-item
+                      class="video"
                       v-bind:id="'player-' + itemId">
 
                       <v-progress-linear
@@ -106,9 +107,6 @@
       hlsServerExternalUrl(itemId) {
         return 'https://link12.ddns.net:3000/hls/' + itemId + '.m3u8';
       },
-      getPlayer(itemId) {
-        return document.getElementById('player-' + itemId);
-      },
       buildIframe(url) {
         let iframe = document.createElement('iframe');
         iframe.src = url;
@@ -117,18 +115,25 @@
       },
       clearIframes() {
         _.map(document.getElementsByClassName('video'), function(el) {
-          el.style.display = 'none';
           _.map(el.getElementsByTagName('iframe'), function(iframe) {
             iframe.src = '';
           });
         });
+      },
+      showPlayer(itemId) {
+        _.map(document.getElementsByClassName('video'), function(el) {
+          el.style.display = el.id == 'player-' + itemId ? 'block' : 'none';
+        });
+      },
+      getPlayer(itemId) {
+        return document.getElementById('player-' + itemId);
       },
       handleClick(event, itemId) {
         if (this.loading) return;
         if (this.getPlayer(itemId).getElementsByTagName('iframe').length > 0) return;
         this.loading = true;
         this.clearIframes();
-        this.getPlayer(itemId).style.display = 'block';
+        this.showPlayer(itemId);
         this.intervals[itemId] = setInterval(() => {
           axios.get(this.railsImportExternalUrl(itemId))
           .then((response) => _get(response, 'data', {}))

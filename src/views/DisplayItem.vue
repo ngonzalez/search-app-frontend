@@ -1,7 +1,5 @@
 <template>
-  <v-container fluid>
-    <LoadFolder></LoadFolder>
-  </v-container>
+  <LoadFolder></LoadFolder>
 </template>
 
 <script>

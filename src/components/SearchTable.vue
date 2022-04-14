@@ -1,5 +1,5 @@
 <template>
-  <v-card class="container" elevation=5>
+  <v-card class="container ma-5 pa-5" elevation=5>
     <v-text-field
       v-bind:label="$t('search.input_label')"
       class="pa-1 ma-1"
@@ -14,13 +14,13 @@
     </v-text-field>
     <v-container fluid v-if="hasResults">
       <v-row>
-        <v-col cols=12>
+        <v-col cols=11>
           <SearchResults>
             <template #item="{ id, dataUrl, name }">
               <v-list>
                 <v-list-item link @click="handleClick($event, dataUrl)">
                   <v-list-item-action>
-                    <v-icon style="color:#000;">mdi-folder-open</v-icon>
+                    <v-icon class="ma-2">mdi-folder-open</v-icon>
                   </v-list-item-action>
 
                   <v-list-item-content class="listItemHome">

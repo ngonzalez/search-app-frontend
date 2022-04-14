@@ -11,6 +11,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  width: 100%;
 }
 
 a, a:visited {
@@ -24,17 +25,12 @@ a:hover {
   color: #1976D2;
 }
 
-hr {
-  border: 2px solid #333 !important;
-}
-
 .cursor-pointer {
   cursor: pointer;
 }
 
 .scrollList {
   width: 100%;
-  height: 1000px;
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -50,39 +46,66 @@ hr {
   scrollbar-width: none;  /* Firefox */
 }
 
-.v-list {
-  margin: 0;;
-  padding: 0;
+.v-card {
+  background: #0c0F0f;
+  margin: 20px auto !important;
 }
 
-.v-list-item .listItemHome {
-  height: 30px;
-  width: 100%;
-  text-align: left;
+.v-card h4 {
+  color: #555;
 }
 
-.v-list-item .video {
-  height: 50px;
-  text-align: left;
-}
-
-.v-list-item .listItem {
-  height: 100px;
-  width: 100%;
-  text-align: left;
-}
-
-.v-list-item-title {
-  height: 30px;
-  padding: 0 5px;
-  margin: 0 5px;
-}
-
-.container {
+.v-card .container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: flex-start;
+  border: 1px solid #000;
+}
+
+.v-list {
+  margin: 0;;
+  padding: 0;
+  color: #fff;
+  background: #0c0F0f;
+}
+
+.v-list > .v-list-item .listItemHome {
+  width: 100%;
+  text-align: left;
+}
+
+.v-list > .v-list-item .video {
+  text-align: left;
+}
+
+.v-list > .v-list-item .listItem {
+  border: 2px solid #0c0f0f;
+  height: auto;
+  width: 100%;
+  text-align: left;
+  background: #000;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #000;
+}
+
+.v-list > .v-list-item-title {
+  padding: 0 5px;
+  margin: 0 5px;
+}
+
+.v-application {
+  background:
+  radial-gradient(black 15%, transparent 16%) 0 0,
+  radial-gradient(black 15%, transparent 16%) 8px 8px,
+  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color:#282828;
+  background-size:16px 16px;
+}
+
+hr {
+  border: 1px solid #000 !important;
 }
 
 .v-divider--inset:not(.v-divider--vertical) {
