@@ -1,26 +1,30 @@
 <template>
-  <v-card class="container ma-5 pa-5" elevation=5>
-    <v-text-field
-      v-bind:label="$t('search.input_label')"
-      class="pa-1 ma-1"
-      color="blue darken-2"
-      outlined
-      variant="outlined"
-      clearable
-      clear-icon="mdi-delete"
-      @click:clear="handleClickClear"
-      @keydown.enter="handleSearchFromInput"
-      v-model="searchQuery">
-    </v-text-field>
+  <v-card class="container" elevation=5>
     <v-container fluid v-if="hasResults">
       <v-row>
-        <v-col cols=11>
+        <v-col cols=12>
+          <v-text-field
+            v-bind:label="$t('search.input_label')"
+            class="pa-1 ma-1"
+            color="blue darken-2"
+            outlined
+            variant="outlined"
+            clearable
+            clear-icon="mdi-delete"
+            @click:clear="handleClickClear"
+            @keydown.enter="handleSearchFromInput"
+            v-model="searchQuery">
+          </v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols=12>
           <SearchResults>
             <template #item="{ id, dataUrl, name }">
               <v-list>
                 <v-list-item link @click="handleClick($event, dataUrl)">
                   <v-list-item-action>
-                    <v-icon class="ma-2">mdi-folder-open</v-icon>
+                    <v-icon>mdi-folder-open</v-icon>
                   </v-list-item-action>
 
                   <v-list-item-content class="listItemHome">
@@ -32,14 +36,18 @@
               </v-list>
             </template>
           </SearchResults>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols=12 class="ma-5 pa-5">
           <v-pagination
-             color="blue darken-2"
-             :size="10"
-             :show-first-last-page="true"
-             :total-visible="10"
-             v-model:model-value="searchResponse.currentPage"
-             v-model:length="searchResponse.totalPages"
-             @update:modelValue="handleSearchFromPagination">
+            color="blue darken-2"
+            :size="10"
+            :show-first-last-page="true"
+            :total-visible="10"
+            v-model:model-value="searchResponse.currentPage"
+            v-model:length="searchResponse.totalPages"
+            @update:modelValue="handleSearchFromPagination">
           </v-pagination>
         </v-col>
       </v-row>

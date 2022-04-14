@@ -29,7 +29,7 @@
                         reverse
                         stream
                         v-show="loading"
-                        color="yellow">
+                        color="blue darken-2">
                       </v-progress-linear>
                     </v-list-item>
                   </v-list-item-content>
