@@ -1,49 +1,64 @@
 <template>
-  <v-card class="container" elevation=5>
-    <v-container>
-      <v-breadcrumbs :items="breadcrumbs" align="center" justify="center">
-        <template v-slot:divider>
-          <v-icon>mdi-chevron-right</v-icon>
-        </template>
-      </v-breadcrumbs>
-      <a-affix :style="{ position: 'sticky', top: 0 }" v-if="hasImages">
-        <v-carousel
-          cycle
-          height="320"
-          hide-delimiter-background
-          show-arrows-on-hover>
+  <v-card class="container">
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12">
+          <v-breadcrumbs :items="breadcrumbs">
+            <template v-slot:divider>
+              <v-icon>mdi-chevron-right</v-icon>
+            </template>
+          </v-breadcrumbs>
+        </v-col>
+      </v-row>
+      <v-row v-if="hasImages">
+        <v-col cols="12">
+          <v-carousel
+            height="320"
+            hide-delimiter-background
+            show-arrows-on-hover>
 
-          <v-carousel-item
-            v-for="image in images"
-            :src="'https://link12.ddns.net:9090' + image.thumbUrl">
-          </v-carousel-item>
-        </v-carousel>
-      </a-affix>
-      <FilesList>
-        <template #item="{ id, itemId, dataUrl }">
-          <v-list>
-            <v-list-item link @click="handleClick($event, itemId)" elevation>
-              <v-list-item-content class="listItem pa-1 ma-1">
-                <v-list-item-title>
-                  <v-icon>mdi-console-line</v-icon>
-                  {{ dataUrl }}
-                </v-list-item-title>
+            <v-carousel-item
+              v-for="image in images"
+              :src="'https://link12.ddns.net:9090' + image.thumbUrl">
+            </v-carousel-item>
+          </v-carousel>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <FilesList>
+            <template #item="{ id, itemId, dataUrl }">
+              <v-list>
+                <v-list-item link @click="handleClick($event, itemId)">
+                  <v-list-item-action>
+                    <v-icon>mdi-console-line</v-icon>
+                  </v-list-item-action>
 
-                <v-list-item class="video" v-bind:id="'player-' + itemId">
-                  <v-progress-linear
-                    indeterminate
-                    reverse
-                    stream
-                    v-show="loading"
-                    class="pa-1 ma-1"
-                    color="blue">
-                  </v-progress-linear>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      {{ dataUrl }}
+                    </v-list-item-title>
+
+                    <v-list-item-subtitle>
+                      <span class="video" v-bind:id="'player-' + itemId" style="visibility:visible;">
+                        <v-progress-linear
+                          indeterminate
+                          reverse
+                          stream
+                          class="ma-1"
+                          v-show="loading"
+                          color="blue">
+                        </v-progress-linear>
+                      </span>
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
                 </v-list-item>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </template>
-      </FilesList>
+                <hr style="border: 1px solid #111;">
+              </v-list>
+            </template>
+          </FilesList>
+        </v-col>
+      </v-row>
     </v-container>
   </v-card>
 </template>
@@ -110,7 +125,6 @@
       buildIframe(url) {
         let iframe = document.createElement('iframe');
         iframe.src = url;
-        iframe.height = 60;
         return iframe;
       },
       clearIframes() {
@@ -122,7 +136,7 @@
       },
       showPlayer(itemId) {
         _.map(document.getElementsByClassName('video'), function(el) {
-          el.style.display = el.id == 'player-' + itemId ? 'block' : 'none';
+          el.style.visibility = el.id == 'player-' + itemId ? 'visible' : 'hidden';
         });
       },
       getPlayer(itemId) {

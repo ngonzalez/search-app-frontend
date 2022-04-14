@@ -1,8 +1,8 @@
 <template>
-  <v-card class="container" elevation=5>
+  <v-card class="container">
     <v-container fluid>
       <v-row>
-        <v-col cols=12>
+        <v-col cols="12">
           <v-text-field
             v-bind:label="$t('search.input_label')"
             class="pa-1 ma-1"
@@ -18,7 +18,7 @@
         </v-col>
       </v-row>
       <v-row v-if="hasResults">
-        <v-col cols=12>
+        <v-col cols="12">
           <SearchResults>
             <template #item="{ id, dataUrl, name }">
               <v-list>
@@ -27,7 +27,7 @@
                     <v-icon>mdi-folder-open</v-icon>
                   </v-list-item-action>
 
-                  <v-list-item-content class="listItemHome">
+                  <v-list-item-content>
                     <v-list-item-title>
                       {{ name }}
                     </v-list-item-title>
@@ -39,7 +39,7 @@
         </v-col>
       </v-row>
       <v-row v-if="!hasResults" align="center" justify="center" class="noResults">
-        <v-col cols=12>
+        <v-col cols="12">
           {{ $t('search.no_results') }}
         </v-col>
       </v-row>

@@ -105,19 +105,8 @@ a:hover {
   margin: 0 20px;
 }
 
-/* Item Display Page List Elements */
-.v-list > .v-list-item .listItem {
-  width: 100%;
-  min-width: 400px;
-  text-align: left;
-  background: #000;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #3F51B5 !important;
-}
-
 /* content */
-.v-list > .v-list-item .listItem .video {
-  display: none;
+.v-list > .v-list-item .video {
   text-align: center;
 }
 
@@ -132,4 +121,7 @@ a:hover {
 hr {
   border: 1px solid #000 !important;
 }
- 
+
+iframe {
+  height: 60px;
+}
