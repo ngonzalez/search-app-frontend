@@ -39,21 +39,18 @@
                       {{ dataUrl }}
                     </v-list-item-title>
 
-                    <v-list-item-subtitle>
-                      <span class="video" v-bind:id="'player-' + itemId" style="visibility:visible;">
-                        <v-progress-linear
-                          indeterminate
-                          reverse
-                          stream
-                          class="ma-1"
-                          v-show="loading"
-                          color="blue">
-                        </v-progress-linear>
-                      </span>
+                    <v-list-item-subtitle class="video" v-bind:id="'player-' + itemId">
+                      <v-progress-linear
+                        indeterminate
+                        reverse
+                        stream
+                        class="ma-1"
+                        v-show="loading"
+                        color="blue">
+                      </v-progress-linear>
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-                <hr style="border: 1px solid #111;">
               </v-list>
             </template>
           </FilesList>
@@ -136,7 +133,7 @@
       },
       showPlayer(itemId) {
         _.map(document.getElementsByClassName('video'), function(el) {
-          el.style.visibility = el.id == 'player-' + itemId ? 'visible' : 'hidden';
+          el.style.display = el.id == 'player-' + itemId ? 'block' : 'none';
         });
       },
       getPlayer(itemId) {

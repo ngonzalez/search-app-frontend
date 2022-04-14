@@ -107,6 +107,7 @@ a:hover {
 
 /* content */
 .v-list > .v-list-item .video {
+  display: none;
   text-align: center;
 }
 
@@ -118,9 +119,6 @@ a:hover {
   padding: 0;
 }
 
-hr {
-  border: 1px solid #000 !important;
-}
 
 iframe {
   height: 60px;
