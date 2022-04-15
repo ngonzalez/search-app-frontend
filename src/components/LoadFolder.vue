@@ -15,6 +15,7 @@
           <v-carousel
             height="320"
             hide-delimiter-background
+            hide-delimiters
             show-arrows-on-hover>
 
             <v-carousel-item
