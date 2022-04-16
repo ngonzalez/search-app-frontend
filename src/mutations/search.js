@@ -9,7 +9,7 @@ const mutation = gql`
       q: $q,
       page: $page,
     }) {
-      folders {
+      results {
         id
         dataUrl
         name

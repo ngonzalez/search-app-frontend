@@ -4,12 +4,12 @@ export default {
   computed: {
     ...mapGetters(['searchResponse']),
     searchResults() {
-      return this.searchResponse.folders;
+      return this.searchResponse.results;
     },
     hasResults() {
       return this.searchResponse &&
-             this.searchResponse.folders &&
-             this.searchResponse.folders.length > 0
+             this.searchResponse.results &&
+             this.searchResponse.results.length > 0
     }
   },
 };
