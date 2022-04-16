@@ -1,22 +1,21 @@
-# Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![image](https://user-images.githubusercontent.com/26479/163654665-aefc0f97-29d2-4d5f-a6d6-11c47468a249.png)
 
-## Recommended IDE Setup
+# search-app-frontend
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+Vue JS Application with GraphQL integration
 
-#### Install dependencies
-```
+## Install dependencies
+```shell
 yarn install
 ```
 
-#### Start development server
-```
+## Start development server
+```shell
 vue serve
 ```
 
-#### Run JS linter
-```
+## Run JS linter
+```shell
 vue lint
 ```
