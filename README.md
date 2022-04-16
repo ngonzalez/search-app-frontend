@@ -3,7 +3,14 @@
 
 # search-app-frontend
 
-Vue JS Application with GraphQL integration
+```
+Author: Nicolas Gonzalez
+License: MIT
+```
+
+Vue 3 Application with GraphQL integration
+
+https://vuejs.org/guide/introduction.html
 
 ## Install dependencies
 ```shell
