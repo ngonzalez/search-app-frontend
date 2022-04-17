@@ -20,16 +20,44 @@
       <v-row v-if="hasResults">
         <v-col cols="12">
           <SearchResults>
-            <template #item="{ id, dataUrl, name }">
+            <template #item="{ id, dataUrl, name, folder, subfolder }">
               <v-list>
                 <v-list-item link @click="handleClick($event, dataUrl)">
-                  <v-list-item-action>
-                    <v-icon>mdi-folder-open</v-icon>
-                  </v-list-item-action>
-
+                  <!-- Icon -->
                   <v-list-item-content>
                     <v-list-item-title>
-                      {{ name }}
+                      <v-icon>mdi-folder-open</v-icon>
+                    </v-list-item-title>
+                  </v-list-item-content>
+
+                  <!-- Folder / Subfolder -->
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      <v-chip color="blue darken-2"
+                        class="ma-1"
+                        x-small
+                        outlined
+                        pill>
+                        {{ folder }}
+                      </v-chip>
+
+                      <v-chip color="purple darken-2"
+                        class="ma-1"
+                        x-small
+                        outlined
+                        pill
+                        v-if="subfolder != 'N/A'">
+                        {{ subfolder }}
+                      </v-chip>
+                    </v-list-item-title>
+                  </v-list-item-content>
+
+                  <!-- Name -->
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      <div class="ma-2">
+                        {{ name }}
+                      </div>
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -94,7 +122,7 @@
           .then((response) => {
             this.setSearchResponse(response);
           }).catch((error) => {
-            this.$toast.warning($t('error.uknonwn'));
+            this.$toast.warning(this.$t('error.uknonwn'));
           });
       },
       handleClick(event, dataUrl) {

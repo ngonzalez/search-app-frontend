@@ -111,7 +111,7 @@
             this.setResponse(response);
             this.addBreadcrumb(this.folder.name, this.folder.dataUrl);
           }).catch((error) => {
-            this.$toast.warning($t('error.uknonwn'));
+            this.$toast.warning(this.$t('error.uknonwn'));
           });
       },
       railsImportExternalUrl(itemId) {
@@ -161,7 +161,7 @@
             }
           })
           .catch((error) => {
-            this.$toast.warning($t('error.uknonwn'));
+            this.$toast.warning(this.$t('error.uknonwn'));
           })
         }, 2000);
       },
