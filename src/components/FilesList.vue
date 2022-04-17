@@ -1,9 +1,6 @@
 <template>
   <ul>
-    <li v-if="!audioFiles.length">
-      {{ $t('search.loading') }}
-    </li>
-    <li v-for="item in audioFiles">
+    <li v-for="item in audioFiles" v-if="hasAudiofiles">
       <slot name="item" v-bind="item" />
     </li>
   </ul>

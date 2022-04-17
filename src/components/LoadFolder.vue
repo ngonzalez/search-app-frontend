@@ -20,7 +20,7 @@
 
             <v-carousel-item
               v-for="image in images"
-              :src="'https://link12.ddns.net:9090' + image.thumbUrl">
+              :src="'http://0.0.0.0:3000' + image.thumbUrl">
             </v-carousel-item>
           </v-carousel>
         </v-col>
@@ -35,21 +35,19 @@
                     <v-icon>mdi-console-line</v-icon>
                   </v-list-item-action>
 
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      {{ dataUrl }}
-                    </v-list-item-title>
+                  <v-list-item-title>
+                    {{ dataUrl }}
+                  </v-list-item-title>
 
-                    <v-list-item-subtitle class="video" v-bind:id="'player-' + itemId">
-                      <v-progress-linear
-                        indeterminate
-                        reverse
-                        stream
-                        v-show="loading"
-                        color="blue">
-                      </v-progress-linear>
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
+                  <v-list-item-subtitle class="video" v-bind:id="'player-' + itemId">
+                    <v-progress-linear
+                      indeterminate
+                      reverse
+                      stream
+                      v-show="loading"
+                      color="blue">
+                    </v-progress-linear>
+                  </v-list-item-subtitle>
                 </v-list-item>
                 <v-divider inset></v-divider>
               </v-list>
@@ -73,7 +71,6 @@
     name: 'LoadFolder',
     components: { FilesList },
     created() {
-      this.emptyStore();
       this.loadFolder();
       this.breadcrumbs = [];
       this.addBreadcrumb(this.$t('home.title'), '/');
@@ -85,16 +82,6 @@
     },
     methods: {
       ...mapMutations(['setFolder', 'setAudioFiles', 'setImages']),
-      emptyStore() {
-        this.setFolder({});
-        this.setAudioFiles({});
-        this.setImages({});
-      },
-      setResponse(response) {
-        this.setFolder(response.folder);
-        this.setAudioFiles(response.audioFiles);
-        this.setImages(response.images);
-      },
       addBreadcrumb(text, href) {
         this.breadcrumbs.push({
           text: text,
@@ -108,7 +95,9 @@
           id: this.$route.params.id,
         }).then((response) => _get(response, 'data.showItem', {}))
           .then((response) => {
-            this.setResponse(response);
+            this.setFolder(response.folder);
+            this.setAudioFiles(response.audioFiles);
+            this.setImages(response.images);
             this.addBreadcrumb(this.folder.name, this.folder.dataUrl);
           }).catch((error) => {
             this.$toast.warning(this.$t('error.uknonwn'));

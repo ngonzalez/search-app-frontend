@@ -1,9 +1,6 @@
 <template>
   <ul>
-    <li v-if="!searchResults.length">
-      {{ $t('search.loading') }}
-    </li>
-    <li v-for="item in searchResults">
+    <li v-for="item in searchResults" v-if="hasResults">
       <slot name="item" v-bind="item" />
     </li>
   </ul>

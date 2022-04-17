@@ -3,6 +3,12 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12">
+          {{ searchQuery }}
+          {{ searchFolder }}
+          {{ searchSubfolder }}
+          <hr />
+          {{ searchResponse }}
+          <hr />
           <v-text-field
             v-bind:label="$t('search.input_label')"
             class="pa-1 ma-1"
@@ -22,44 +28,42 @@
           <SearchResults>
             <template #item="{ id, dataUrl, name, folder, subfolder }">
               <v-list>
-                <v-list-item link @click="handleClick($event, dataUrl)">
+                <v-list-item>
                   <!-- Icon -->
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      <v-icon>mdi-folder-open</v-icon>
-                    </v-list-item-title>
-                  </v-list-item-content>
+                  <v-list-item-title>
+                    <v-icon>mdi-folder-open</v-icon>
+                  </v-list-item-title>
 
                   <!-- Folder / Subfolder -->
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      <v-chip color="blue darken-2"
-                        class="ma-1"
-                        x-small
-                        outlined
-                        pill>
-                        {{ folder }}
-                      </v-chip>
+                  <v-list-item-title>
+                    <v-chip
+                      color="blue darken-2"
+                      @click="handleClickFolder($event, dataUrl, folder)"
+                      class="ma-1"
+                      x-small
+                      outlined
+                      pill>
+                      {{ folder }}
+                    </v-chip>
 
-                      <v-chip color="purple darken-2"
-                        class="ma-1"
-                        x-small
-                        outlined
-                        pill
-                        v-if="subfolder != 'N/A'">
-                        {{ subfolder }}
-                      </v-chip>
-                    </v-list-item-title>
-                  </v-list-item-content>
+                    <v-chip
+                      color="purple darken-2"
+                      @click="handleClickSubfolder($event, dataUrl, folder, subfolder)"
+                      v-if="subfolder != 'N/A'"
+                      class="ma-1"
+                      x-small
+                      outlined
+                      pill>
+                      {{ subfolder }}
+                    </v-chip>
+                  </v-list-item-title>
 
                   <!-- Name -->
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      <div class="ma-2">
-                        {{ name }}
-                      </div>
-                    </v-list-item-title>
-                  </v-list-item-content>
+                  <v-list-item-title
+                    @click="handleClick($event, dataUrl)"
+                    class="ma-2 cursorPointer">
+                    {{ name }}
+                  </v-list-item-title>
                 </v-list-item>
               </v-list>
             </template>
@@ -97,27 +101,26 @@
   export default {
     name: 'SearchTable',
     components: { SearchResults },
+    created() {
+      // this.handleSearch();
+      console.log('---');
+      console.log(this.searchQuery);
+      console.log(this.searchResponse);
+    },
     data() {
       return {
         currentPage: 1,
       };
     },
     methods: {
-      ...mapMutations(['setSearchResponse', 'setSearchQuery']),
-      handleSearchFromInput(event) {
-        this.setSearchQuery(event.target.value);
-        this.currentPage = 1;
-        this.handleSearch();
-      },
-      handleSearchFromPagination(event) {
-        this.currentPage = event;
-        this.handleSearch();
-      },
+      ...mapMutations(['setSearchResponse', 'setSearchQuery', 'setSearchFolder', 'setSearchSubfolder']),
       handleSearch() {
         search({
           apollo: this.$apollo,
           page: this.currentPage,
           q: this.searchQuery,
+          folder: this.searchFolder,
+          subfolder: this.searchSubfolder,
         }).then((response) => _get(response, 'data.search', {}))
           .then((response) => {
             this.setSearchResponse(response);
@@ -130,6 +133,34 @@
       },
       handleClickClear(event) {
         this.setSearchQuery('');
+        this.setSearchFolder('');
+        this.setSearchSubfolder('');
+        this.handleSearch();
+      },
+      handleSearchFromInput(event) {
+        this.setSearchQuery(event.target.value);
+        this.setSearchFolder('');
+        this.setSearchSubfolder('');
+        this.currentPage = 1;
+        this.handleSearch();
+      },
+      handleSearchFromPagination(event) {
+        this.currentPage = event;
+        this.handleSearch();
+      },
+      handleClickFolder(event, dataUrl, folder) {
+        this.setSearchQuery('');
+        this.setSearchFolder(folder);
+        this.setSearchSubfolder('');
+        this.currentPage = 1;
+        this.handleSearch();
+      },
+      handleClickSubfolder(event, dataUrl, folder, subfolder) {
+        this.setSearchQuery('');
+        this.setSearchFolder(folder);
+        this.setSearchSubfolder(subfolder);
+        this.currentPage = 1;
+        this.handleSearch();
       }
     },
   };
