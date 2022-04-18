@@ -10,10 +10,11 @@ export default createStore({
   },
   plugins: [
     createPersistedState({
-      getState: (key) => $cookies.get(key),
-      setState: (key, state) => {
+      getItem: (key) => $cookies.get(key),
+      setItem: (key, state) => {
         $cookies.set(key, state, { expires: 1 });
       },
+      removeItem: (key) => $cookies.remove(key),
     }),
   ],
   mutations: {
