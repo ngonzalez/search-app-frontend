@@ -103,7 +103,7 @@
               }
             });
             this.addBreadcrumb(this.storeData.displayItem.folder.name,
-                this.storeData.displayItem.folder.dataUrl);
+              this.storeData.displayItem.folder.dataUrl);
           }).catch((error) => {
             this.$toast.warning(this.$t('error.uknonwn'));
           });

@@ -134,15 +134,17 @@
       handleSearchFromInput(event) {
         _.assign(this.search,
           _.assign(this.defaultSearchParams(), {
-            q: event.target.value
+            q: event.target.value,
           })
         );
         this.handleSearch();
       },
       handleSearchFromPagination(event) {
-        _.assign(this.search, {
-          page: event,
-        });
+        _.assign(this.search,
+          _.assign(this.storeData.search, {
+            page: event,
+          })
+        );
         this.handleSearch();
       },
       handleClickFolder(event, dataUrl, folder) {
