@@ -1,14 +1,9 @@
 <template>
+  {{ storeData }}
   <v-card class="container">
     <v-container fluid>
       <v-row>
         <v-col cols="12">
-          {{ searchQuery }}
-          {{ searchFolder }}
-          {{ searchSubfolder }}
-          <hr />
-          {{ searchResponse }}
-          <hr />
           <v-text-field
             v-bind:label="$t('search.input_label')"
             class="pa-1 ma-1"
@@ -19,7 +14,7 @@
             clear-icon="mdi-delete"
             @click:clear="handleClickClear"
             @keydown.enter="handleSearchFromInput"
-            v-model="searchQuery">
+            v-model="storeData.search.q">
           </v-text-field>
         </v-col>
       </v-row>
@@ -82,8 +77,8 @@
             :size="10"
             :show-first-last-page="true"
             :total-visible="10"
-            v-model:model-value="searchResponse.currentPage"
-            v-model:length="searchResponse.totalPages"
+            v-model:model-value="storeData.search.response.currentPage"
+            v-model:length="storeData.search.response.totalPages"
             @update:modelValue="handleSearchFromPagination">
           </v-pagination>
         </v-col>
@@ -96,34 +91,36 @@
   import { mapMutations } from 'vuex';
   import SearchResults from '../components/SearchResults.vue';
   import search from '../mutations/search';
+  import _ from 'lodash';
   import _get from 'lodash/get';
 
   export default {
     name: 'SearchTable',
     components: { SearchResults },
-    created() {
-      // this.handleSearch();
-      console.log('---');
-      console.log(this.searchQuery);
-      console.log(this.searchResponse);
-    },
     data() {
       return {
-        currentPage: 1,
+        search: {},
       };
     },
     methods: {
-      ...mapMutations(['setSearchResponse', 'setSearchQuery', 'setSearchFolder', 'setSearchSubfolder']),
+      ...mapMutations(['setStoreData']),
+      defaultSearchParams() {
+        return {
+          page: 1,
+          q: '',
+          folder: '',
+          subfolder: '',
+        }
+      },
       handleSearch() {
-        search({
-          apollo: this.$apollo,
-          page: this.currentPage,
-          q: this.searchQuery,
-          folder: this.searchFolder,
-          subfolder: this.searchSubfolder,
-        }).then((response) => _get(response, 'data.search', {}))
+        search(_.assign({ apollo: this.$apollo }, this.search))
+          .then((response) => _get(response, 'data.search', {}))
           .then((response) => {
-            this.setSearchResponse(response);
+            this.setStoreData({
+              'search': _.assign(this.search, {
+                response: response
+              })
+            });
           }).catch((error) => {
             this.$toast.warning(this.$t('error.uknonwn'));
           });
@@ -132,36 +129,40 @@
         this.$router.push(dataUrl);
       },
       handleClickClear(event) {
-        this.setSearchQuery('');
-        this.setSearchFolder('');
-        this.setSearchSubfolder('');
+        _.assign(this.search, this.defaultSearchParams());
         this.handleSearch();
       },
       handleSearchFromInput(event) {
-        this.setSearchQuery(event.target.value);
-        this.setSearchFolder('');
-        this.setSearchSubfolder('');
-        this.currentPage = 1;
+        _.assign(this.search,
+          _.assign(this.defaultSearchParams(), {
+            q: event.target.value
+          })
+        );
         this.handleSearch();
       },
       handleSearchFromPagination(event) {
-        this.currentPage = event;
+        _.assign(this.search, {
+          page: event,
+        });
         this.handleSearch();
       },
       handleClickFolder(event, dataUrl, folder) {
-        this.setSearchQuery('');
-        this.setSearchFolder(folder);
-        this.setSearchSubfolder('');
-        this.currentPage = 1;
+        _.assign(this.search,
+          _.assign(this.defaultSearchParams(), {
+            folder: folder,
+          })
+        );
         this.handleSearch();
       },
       handleClickSubfolder(event, dataUrl, folder, subfolder) {
-        this.setSearchQuery('');
-        this.setSearchFolder(folder);
-        this.setSearchSubfolder(subfolder);
-        this.currentPage = 1;
+        _.assign(this.search,
+          _.assign(this.defaultSearchParams(), {
+            folder: folder,
+            subfolder: subfolder,
+          })
+        );
         this.handleSearch();
-      }
+      },
     },
   };
 </script>

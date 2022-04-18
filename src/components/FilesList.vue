@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="item in audioFiles" v-if="hasAudiofiles">
+    <li v-for="item in storeData.displayItem.audioFiles" v-if="hasAudiofiles">
       <slot name="item" v-bind="item" />
     </li>
   </ul>

@@ -1,4 +1,5 @@
 <template>
+  {{ storeData }}
   <v-card class="container">
     <v-container fluid>
       <v-row>
@@ -19,7 +20,7 @@
             show-arrows-on-hover>
 
             <v-carousel-item
-              v-for="image in images"
+              v-for="image in storeData.displayItem.images"
               :src="'http://0.0.0.0:3000' + image.thumbUrl">
             </v-carousel-item>
           </v-carousel>
@@ -71,9 +72,9 @@
     name: 'LoadFolder',
     components: { FilesList },
     created() {
-      this.loadFolder();
       this.breadcrumbs = [];
       this.addBreadcrumb(this.$t('home.title'), '/');
+      this.loadFolder();
     },
     data: {
       intervals: {},
@@ -81,7 +82,7 @@
       breadcrumbs: [],
     },
     methods: {
-      ...mapMutations(['setFolder', 'setAudioFiles', 'setImages']),
+      ...mapMutations(['setStoreData']),
       addBreadcrumb(text, href) {
         this.breadcrumbs.push({
           text: text,
@@ -95,10 +96,15 @@
           id: this.$route.params.id,
         }).then((response) => _get(response, 'data.showItem', {}))
           .then((response) => {
-            this.setFolder(response.folder);
-            this.setAudioFiles(response.audioFiles);
-            this.setImages(response.images);
-            this.addBreadcrumb(this.folder.name, this.folder.dataUrl);
+            this.setStoreData({
+              'displayItem': {
+                folder: response.folder,
+                audioFiles: response.audioFiles,
+                images: response.images,
+              }
+            });
+            this.addBreadcrumb(this.storeData.displayItem.folder.name,
+                this.storeData.displayItem.folder.dataUrl);
           }).catch((error) => {
             this.$toast.warning(this.$t('error.uknonwn'));
           });

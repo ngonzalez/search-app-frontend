@@ -16,16 +16,8 @@ import { VueCookies } from 'vue-cookies';
 // Store
 import Store from './stores/store';
 
-// Configuration: Search
-import SearchQueryConfiguration from './configurations/search_query';
-import SearchResponseConfiguration from './configurations/search_response';
-import SearchFolderConfiguration from './configurations/search_folder';
-import SearchSubfolderConfiguration from './configurations/search_subfolder';
-
-// Configuration: Display Item
-import FolderConfiguration from './configurations/folder';
-import AudioFilesConfiguration from './configurations/audio_files';
-import ImagesConfiguration from './configurations/images';
+// StoreData Configuration
+import StoreDataConfiguration from './configurations/store_data';
 
 // VueToastNotification
 import VueToast from 'vue-toast-notification';
@@ -117,13 +109,7 @@ app.use(Vuetify);
 app.use(Store);
 app.use(VueCookies);
 app.use(VueToast);
-app.mixin(SearchQueryConfiguration);
-app.mixin(SearchResponseConfiguration);
-app.mixin(SearchFolderConfiguration);
-app.mixin(SearchSubfolderConfiguration);
-app.mixin(FolderConfiguration);
-app.mixin(AudioFilesConfiguration);
-app.mixin(ImagesConfiguration);
+app.mixin(StoreDataConfiguration);
 
 document.addEventListener('DOMContentLoaded', () => {
   app.mount('#app');
