@@ -1,5 +1,4 @@
 <template>
-  {{ storeData }}
   <v-card class="container">
     <v-container fluid>
       <v-row>
@@ -14,7 +13,7 @@
             clear-icon="mdi-delete"
             @click:clear="handleClickClear"
             @keydown.enter="handleSearchFromInput"
-            v-model="storeData.search.q">
+            v-model="searchQuery">
           </v-text-field>
         </v-col>
       </v-row>
@@ -77,8 +76,8 @@
             :size="10"
             :show-first-last-page="true"
             :total-visible="10"
-            v-model:model-value="storeData.search.response.currentPage"
-            v-model:length="storeData.search.response.totalPages"
+            v-model:model-value="currentPage"
+            v-model:length="totalPages"
             @update:modelValue="handleSearchFromPagination">
           </v-pagination>
         </v-col>

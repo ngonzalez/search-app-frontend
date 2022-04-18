@@ -1,5 +1,4 @@
 <template>
-  {{ storeData }}
   <v-card class="container">
     <v-container fluid>
       <v-row>
