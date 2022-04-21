@@ -20,7 +20,7 @@
 
             <v-carousel-item
               v-for="image in storeData.displayItem.images"
-              :src="'http://0.0.0.0:3000' + image.thumbUrl">
+              :src="'https://link12.ddns.net' + image.thumbUrl">
             </v-carousel-item>
           </v-carousel>
         </v-col>
