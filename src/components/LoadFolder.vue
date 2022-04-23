@@ -1,15 +1,6 @@
 <template>
   <v-card class="container">
     <v-container fluid>
-      <v-row>
-        <v-col cols="12">
-          <v-breadcrumbs :items="breadcrumbs">
-            <template v-slot:divider>
-              <v-icon>mdi-chevron-right</v-icon>
-            </template>
-          </v-breadcrumbs>
-        </v-col>
-      </v-row>
       <v-row v-if="hasImages">
         <v-col cols="12">
           <v-carousel
@@ -23,6 +14,15 @@
               :src="'https://link12.ddns.net:9090' + image.thumbUrl">
             </v-carousel-item>
           </v-carousel>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-breadcrumbs :items="breadcrumbs">
+            <template v-slot:divider>
+              <v-icon>mdi-chevron-right</v-icon>
+            </template>
+          </v-breadcrumbs>
         </v-col>
       </v-row>
       <v-row class="ma-2 pa-2">
@@ -72,13 +72,49 @@
     components: { FilesList },
     created() {
       this.breadcrumbs = [];
-      this.addBreadcrumb(this.$t('home.title'), '/');
+      this.breadcrumbs.push({
+        disabled: false,
+        text: this.$t('home.title'),
+        to: { name: 'home_redirect' },
+      });
+      if (this.storeData.search.folder && this.storeData.search.subfolder) {
+        this.breadcrumbs.push({
+          disabled: false,
+          text: this.storeData.search.folder,
+          to: {
+            name: 'home_folder',
+            path: '/home/' + this.storeData.search.folder,
+            params: { folder: this.storeData.search.folder },
+          },
+        });
+        this.breadcrumbs.push({
+          disabled: false,
+          text: this.storeData.search.subfolder,
+          to: {
+            name: 'home_folder_subfolder',
+            path: '/home/' + this.storeData.search.folder + '/' + this.storeData.search.subfolder,
+            params: { folder: this.storeData.search.folder, subfolder: this.storeData.search.subfolder },
+          },
+        });
+      } else if (this.storeData.search.folder) {
+        this.breadcrumbs.push({
+          disabled: false,
+          text: this.storeData.search.folder,
+          to: {
+            name: 'home_folder',
+            path: '/home/' + this.storeData.search.folder,
+            params: { folder: this.storeData.search.folder },
+          },
+        });
+      }
       this.loadFolder();
     },
-    data: {
-      intervals: {},
-      loading: false,
-      breadcrumbs: [],
+    data () {
+      return {
+        intervals: {},
+        loading: false,
+        breadcrumbs: [],
+      };
     },
     methods: {
       ...mapMutations(['setStoreData']),

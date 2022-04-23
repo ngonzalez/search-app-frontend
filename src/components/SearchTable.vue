@@ -17,6 +17,15 @@
           </v-text-field>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-breadcrumbs :items="breadcrumbs">
+            <template v-slot:divider>
+              <v-icon>mdi-chevron-right</v-icon>
+            </template>
+          </v-breadcrumbs>
+        </v-col>
+      </v-row>
       <v-row v-if="hasResults">
         <v-col cols="12">
           <SearchResults>
@@ -69,7 +78,7 @@
           {{ $t('search.no_results') }}
         </v-col>
       </v-row>
-      <v-row align="center" justify="center">
+      <v-row v-if="hasResults" align="center" justify="center">
         <v-col cols=12 class="ma-5 pa-5">
           <v-pagination
             color="blue darken-2"
@@ -96,16 +105,151 @@
   export default {
     name: 'SearchTable',
     components: { SearchResults },
+    created() {
+      // created
+    },
     data() {
       return {
-        search: {},
+        breadcrumbs: [],
         defaultSearchParams: {
           page: 1,
           q: '',
           folder: '',
           subfolder: '',
         },
+        search: {},
       };
+    },
+    watch:{
+      '$route.name': {
+        handler: function(route_name) {
+          switch (route_name) {
+            // Home
+            case 'home': {
+              _.assign(this.search, this.storeData.search);
+              this.handleSearch();
+              this.breadcrumbs = [];
+              this.breadcrumbs.push({
+                disabled: false,
+                text: this.$t('home.title'),
+                to: {
+                  name: 'home_redirect',
+                  params: this.defaultSearchParams,
+                },
+              });
+              break;
+            }
+
+            // Home
+            case 'home_redirect': {
+              _.assign(this.search, this.defaultSearchParams);
+              this.handleSearch();
+              this.breadcrumbs = [];
+              this.breadcrumbs.push({
+                disabled: false,
+                text: this.$t('home.title'),
+                to: {
+                  name: 'home_redirect',
+                  params: this.defaultSearchParams,
+                },
+              });
+              break;
+            }
+
+            // Search
+            case 'home_search': {
+              const query = _.last(this.$route.path.split('/'));
+              _.assign(this.search, this.defaultSearchParams, { q: query });
+              this.handleSearch();
+              this.breadcrumbs = [];
+              this.breadcrumbs.push({
+                disabled: false,
+                text: this.$t('home.title'),
+                to: {
+                  name: 'home_redirect',
+                  params: this.defaultSearchParams,
+                },
+              });
+              break;
+            }
+
+            // Browse Subfolder
+            case 'home_folder_subfolder': {
+              const folder = this.$route.params.folder;
+              const subfolder = this.$route.params.subfolder;
+              _.assign(this.search, this.defaultSearchParams, { folder: folder, subfolder: subfolder });
+              this.handleSearch();
+              this.breadcrumbs = [{
+                disabled: false,
+                text: this.$t('home.title'),
+                to: {
+                  name: 'home_redirect',
+                  params: this.defaultSearchParams,
+                },
+              },
+              {
+                disabled: false,
+                text: folder,
+                // href: '/home/' + folder,
+                to: {
+                  name: 'home_folder',
+                  path: '/home/' + folder,
+                  params: { folder: folder },
+                },
+              },
+              {
+                disabled: false,
+                text: subfolder,
+                // href: '/home/' + folder + '/' + subfolder,
+                to: {
+                  name: 'home_folder_subfolder',
+                  path: '/home/' + folder + '/' + subfolder,
+                  params: { folder: folder, subfolder: subfolder },
+                },
+              }];
+              break;
+            }
+
+            // Browse Folder
+            case 'home_folder': {
+              const folder = this.$route.params.folder;
+              _.assign(this.search, this.defaultSearchParams, { folder: folder });
+              this.handleSearch();
+              this.breadcrumbs = [{
+                disabled: false,
+                text: this.$t('home.title'),
+                to: {
+                  name: 'home_redirect',
+                  params: this.defaultSearchParams,
+                },
+              },
+              {
+                disabled: false,
+                text: folder,
+                to: {
+                  name: 'home_folder',
+                  path: '/home/' + folder,
+                  params: { folder: folder },
+                },
+              }];
+              break;
+            }
+
+            case 'show': {
+              // Component is replaced by DisplayItem
+              break;
+            }
+
+            default: {
+            // Route not found
+              this.$toast.warning('Route not found: ' + route_name);
+              break;
+            }
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
       ...mapMutations(['setStoreData']),
@@ -119,48 +263,45 @@
               })
             });
           }).catch((error) => {
-            this.$toast.warning(this.$t('error.uknonwn'));
+            this.$toast.warning('Unknown error');
           });
       },
       handleClick(event, dataUrl) {
-        this.$router.push(dataUrl);
+        this.$router.push({
+          name: 'show',
+          path: '/' + dataUrl,
+          params: { id: dataUrl },
+        });
       },
       handleClickClear(event) {
-        _.assign(this.search, this.defaultSearchParams);
-        this.handleSearch();
+        this.$router.push({
+          name: 'home_redirect',
+        });
       },
       handleSearchFromInput(event) {
-        _.assign(this.search,
-          _.assign(this.defaultSearchParams, {
-            q: event.target.value,
-          })
-        );
-        this.handleSearch();
+        this.$router.push({
+          name: 'home_search',
+          path: '/search/' + event.target.value,
+          params: { q: event.target.value },
+        });
       },
       handleSearchFromPagination(event) {
-        _.assign(this.search,
-          _.assign(this.storeData.search, {
-            page: event,
-          })
-        );
+        _.assign(this.search, this.storeData.search, { page: event });
         this.handleSearch();
       },
       handleClickFolder(event, dataUrl, folder) {
-        _.assign(this.search,
-          _.assign(this.defaultSearchParams, {
-            folder: folder,
-          })
-        );
-        this.handleSearch();
+        this.$router.push({
+          name: 'home_folder',
+          path: '/home/' + folder,
+          params: { folder: folder },
+        });
       },
       handleClickSubfolder(event, dataUrl, folder, subfolder) {
-        _.assign(this.search,
-          _.assign(this.defaultSearchParams, {
-            folder: folder,
-            subfolder: subfolder,
-          })
-        );
-        this.handleSearch();
+        this.$router.push({
+          name: 'home_folder_subfolder',
+          path: '/home/' + folder + '/' + subfolder,
+          params: { folder: folder, subfolder: subfolder },
+        });
       },
     },
   };

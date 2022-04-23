@@ -13,6 +13,26 @@ const routes = [
     component: HomeShow,
   },
   {
+    path: '/search/:q',
+    name: 'home_search',
+    component: HomeShow,
+  },
+  {
+    path: '/home/:folder',
+    name: 'home_folder',
+    component: HomeShow,
+  },
+  {
+    path: '/home/:folder/:subfolder',
+    name: 'home_folder_subfolder',
+    component: HomeShow,
+  },
+  {
+    path: '/home',
+    name: 'home_redirect',
+    component: HomeShow,
+  },
+  {
     path:'/:id',
     name: 'show',
     component: DisplayItem,

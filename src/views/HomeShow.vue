@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import SearchTable from '../components/SearchTable.vue';
+  import SearchTable from '../components/SearchTable.vue';
 
-export default {
-  name: 'HomeShow',
-  components: { SearchTable },
-};
+  export default {
+    name: 'HomeShow',
+    components: { SearchTable },
+  };
 </script>

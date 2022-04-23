@@ -13,7 +13,8 @@
       "loading": "Loading…"
     },
     "error": {
-      "unknown": "Unknown Error"
+      "unknown": "Unknown error",
+      "route_not_found": "Route not found"
     }
   }
 }
