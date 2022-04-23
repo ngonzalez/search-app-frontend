@@ -77,6 +77,13 @@
         text: this.$t('home.title'),
         to: { name: 'home_redirect' },
       });
+      if (this.storeData.search.q) {
+        this.breadcrumbs.push({
+          disabled: false,
+          text: 'Your search for: ' + this.storeData.search.q,
+          to: { name: 'home' },
+        });
+      }
       if (this.storeData.search.folder && this.storeData.search.subfolder) {
         this.breadcrumbs.push({
           disabled: false,
