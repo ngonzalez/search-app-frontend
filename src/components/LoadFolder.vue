@@ -19,7 +19,7 @@
             show-arrows-on-hover>
 
             <v-carousel-item
-              v-for="image in storeData.displayItem.images"
+              v-for="image in images"
               :src="'https://link12.ddns.net:9090' + image.thumbUrl">
             </v-carousel-item>
           </v-carousel>

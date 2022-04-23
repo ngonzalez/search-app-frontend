@@ -24,10 +24,18 @@ export default {
              this.storeData.search.response &&
              this.storeData.search.response.results.length > 0
     },
+    audioFiles() {
+      if (!this.storeData.displayItem) return;
+      return this.storeData.displayItem.audioFiles;
+    },
     hasAudiofiles() {
       return this.storeData.displayItem &&
              this.storeData.displayItem.audioFiles &&
              this.storeData.displayItem.audioFiles.length > 0
+    },
+    images() {
+      if (!this.storeData.displayItem) return;
+      return this.storeData.displayItem.images;
     },
     hasImages() {
       return this.storeData.displayItem &&

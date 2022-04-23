@@ -99,18 +99,16 @@
     data() {
       return {
         search: {},
-      };
-    },
-    methods: {
-      ...mapMutations(['setStoreData']),
-      defaultSearchParams() {
-        return {
+        defaultSearchParams: {
           page: 1,
           q: '',
           folder: '',
           subfolder: '',
-        }
-      },
+        },
+      };
+    },
+    methods: {
+      ...mapMutations(['setStoreData']),
       handleSearch() {
         search(_.assign({ apollo: this.$apollo }, this.search))
           .then((response) => _get(response, 'data.search', {}))
@@ -128,12 +126,12 @@
         this.$router.push(dataUrl);
       },
       handleClickClear(event) {
-        _.assign(this.search, this.defaultSearchParams());
+        _.assign(this.search, this.defaultSearchParams);
         this.handleSearch();
       },
       handleSearchFromInput(event) {
         _.assign(this.search,
-          _.assign(this.defaultSearchParams(), {
+          _.assign(this.defaultSearchParams, {
             q: event.target.value,
           })
         );
@@ -149,7 +147,7 @@
       },
       handleClickFolder(event, dataUrl, folder) {
         _.assign(this.search,
-          _.assign(this.defaultSearchParams(), {
+          _.assign(this.defaultSearchParams, {
             folder: folder,
           })
         );
@@ -157,7 +155,7 @@
       },
       handleClickSubfolder(event, dataUrl, folder, subfolder) {
         _.assign(this.search,
-          _.assign(this.defaultSearchParams(), {
+          _.assign(this.defaultSearchParams, {
             folder: folder,
             subfolder: subfolder,
           })
