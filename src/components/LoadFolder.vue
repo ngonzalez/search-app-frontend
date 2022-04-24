@@ -71,8 +71,8 @@
     name: 'LoadFolder',
     components: { FilesList },
     created() {
-      this.showBreadCrumbs();
       this.loadFolder();
+      this.showBreadCrumbs();
     },
     data () {
       return {
