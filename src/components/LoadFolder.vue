@@ -72,7 +72,6 @@
     components: { FilesList },
     created() {
       this.loadFolder();
-      this.showBreadCrumbs();
     },
     data () {
       return {
@@ -96,6 +95,7 @@
                 images: response.images,
               }
             });
+            this.showBreadCrumbs();
           }).catch((error) => {
             this.$toast.warning(this.$t('error.uknonwn'));
           });
@@ -114,52 +114,50 @@
             to: { name: 'home' },
           });
         }
-        if (this.currentFolder) {
-          if (this.currentFolder.parentFolder && this.currentFolder.parentSubfolder) {
-            if (this.currentFolder.parentFolder != 'N/A') {
-              this.breadcrumbs.push({
-                disabled: false,
-                text: this.currentFolder.parentFolder,
-                to: {
-                  name: 'home_folder',
-                  path: '/home/' + this.currentFolder.parentFolder,
-                  params: { folder: this.currentFolder.parentFolder },
-                },
-              });
-            }
-            if (this.currentFolder.parentSubfolder != 'N/A') {
-              this.breadcrumbs.push({
-                disabled: false,
-                text: this.currentFolder.parentSubfolder,
-                to: {
-                  name: 'home_folder_subfolder',
-                  path: '/home/' + this.currentFolder.parentFolder + '/' + this.currentFolder.parentSubfolder,
-                  params: { folder: this.currentFolder.parentFolder, subfolder: this.currentFolder.parentSubfolder },
-                },
-              });
-            }
-          } else if (this.currentFolder.parentFolder) {
-            if (this.currentFolder.parentFolder != 'N/A') {
-              this.breadcrumbs.push({
-                disabled: false,
-                text: this.currentFolder.parentFolder,
-                to: {
-                  name: 'home_folder',
-                  path: '/home/' + this.currentFolder.parentFolder,
-                  params: { folder: this.currentFolder.parentFolder },
-                },
-              });
-            }
+        if (this.currentFolder.parentFolder && this.currentFolder.parentSubfolder) {
+          if (this.currentFolder.parentFolder != 'N/A') {
+            this.breadcrumbs.push({
+              disabled: false,
+              text: this.currentFolder.parentFolder,
+              to: {
+                name: 'home_folder',
+                path: '/home/' + this.currentFolder.parentFolder,
+                params: { folder: this.currentFolder.parentFolder },
+              },
+            });
           }
-          this.breadcrumbs.push({
-            disabled: false,
-            text: this.currentFolder.name,
-            to: {
-              name: 'show',
-              path: '/' + this.currentFolder.dataUrl,
-            },
-          });
+          if (this.currentFolder.parentSubfolder != 'N/A') {
+            this.breadcrumbs.push({
+              disabled: false,
+              text: this.currentFolder.parentSubfolder,
+              to: {
+                name: 'home_folder_subfolder',
+                path: '/home/' + this.currentFolder.parentFolder + '/' + this.currentFolder.parentSubfolder,
+                params: { folder: this.currentFolder.parentFolder, subfolder: this.currentFolder.parentSubfolder },
+              },
+            });
+          }
+        } else if (this.currentFolder.parentFolder) {
+          if (this.currentFolder.parentFolder != 'N/A') {
+            this.breadcrumbs.push({
+              disabled: false,
+              text: this.currentFolder.parentFolder,
+              to: {
+                name: 'home_folder',
+                path: '/home/' + this.currentFolder.parentFolder,
+                params: { folder: this.currentFolder.parentFolder },
+              },
+            });
+          }
         }
+        this.breadcrumbs.push({
+          disabled: false,
+          text: this.currentFolder.name,
+          to: {
+            name: 'show',
+            path: '/' + this.currentFolder.dataUrl,
+          },
+        });
       },
       railsImportExternalUrl(itemId) {
         return 'https://link12.ddns.net:3000/audio_files/' + itemId + '.json';
