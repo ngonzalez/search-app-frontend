@@ -11,6 +11,8 @@ const mutation = gql`
         id
         dataUrl
         name
+        parentFolder
+        parentSubfolder
       }
       audioFiles {
         id

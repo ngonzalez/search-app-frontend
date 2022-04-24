@@ -17,8 +17,8 @@ const mutation = gql`
         id
         dataUrl
         name
-        folder
-        subfolder
+        parentFolder
+        parentSubfolder
       }
       loading
       errors

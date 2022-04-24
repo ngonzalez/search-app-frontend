@@ -29,7 +29,7 @@
       <v-row v-if="hasResults">
         <v-col cols="12">
           <SearchResults>
-            <template #item="{ id, dataUrl, name, folder, subfolder }">
+            <template #item="{ id, dataUrl, name, parentFolder, parentSubfolder }">
               <v-list>
                 <v-list-item>
                   <!-- Icon -->
@@ -41,23 +41,24 @@
                   <v-list-item-title>
                     <v-chip
                       color="blue darken-2"
-                      @click="handleClickFolder($event, dataUrl, folder)"
+                      @click="handleClickFolder($event, dataUrl, parentFolder)"
+                      v-if="parentFolder != 'N/A'"
                       class="ma-1"
                       x-small
                       outlined
-                      pill>
-                      {{ folder }}
+                      label>
+                      {{ parentFolder }}
                     </v-chip>
 
                     <v-chip
                       color="purple darken-2"
-                      @click="handleClickSubfolder($event, dataUrl, folder, subfolder)"
-                      v-if="subfolder != 'N/A'"
+                      @click="handleClickSubfolder($event, dataUrl, parentFolder, parentSubfolder)"
+                      v-if="parentSubfolder != 'N/A'"
                       class="ma-1"
                       x-small
                       outlined
-                      pill>
-                      {{ subfolder }}
+                      label>
+                      {{ parentSubfolder }}
                     </v-chip>
                   </v-list-item-title>
 
@@ -263,7 +264,8 @@
               })
             });
           }).catch((error) => {
-            this.$toast.warning('Unknown error');
+            console.debug(error);
+            // this.$toast.warning('Unknown error');
           });
       },
       handleClick(event, dataUrl) {

@@ -24,6 +24,10 @@ export default {
              this.storeData.search.response &&
              this.storeData.search.response.results.length > 0
     },
+    currentFolder() {
+      if (!this.storeData.displayItem) return;
+      return this.storeData.displayItem.folder;
+    },
     audioFiles() {
       if (!this.storeData.displayItem) return;
       return this.storeData.displayItem.audioFiles;

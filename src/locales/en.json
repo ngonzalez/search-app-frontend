@@ -4,7 +4,8 @@
       "home": "Home"
     },
     "home": {
-      "title": "Home"
+      "title": "Home",
+      "your_search_for": "Your search for:"
     },
     "search": {
       "title_name": "Name",

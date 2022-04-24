@@ -71,49 +71,7 @@
     name: 'LoadFolder',
     components: { FilesList },
     created() {
-      this.breadcrumbs = [];
-      this.breadcrumbs.push({
-        disabled: false,
-        text: this.$t('home.title'),
-        to: { name: 'home_redirect' },
-      });
-      if (this.storeData.search.q) {
-        this.breadcrumbs.push({
-          disabled: false,
-          text: 'Your search for: ' + this.storeData.search.q,
-          to: { name: 'home' },
-        });
-      }
-      if (this.storeData.search.folder && this.storeData.search.subfolder) {
-        this.breadcrumbs.push({
-          disabled: false,
-          text: this.storeData.search.folder,
-          to: {
-            name: 'home_folder',
-            path: '/home/' + this.storeData.search.folder,
-            params: { folder: this.storeData.search.folder },
-          },
-        });
-        this.breadcrumbs.push({
-          disabled: false,
-          text: this.storeData.search.subfolder,
-          to: {
-            name: 'home_folder_subfolder',
-            path: '/home/' + this.storeData.search.folder + '/' + this.storeData.search.subfolder,
-            params: { folder: this.storeData.search.folder, subfolder: this.storeData.search.subfolder },
-          },
-        });
-      } else if (this.storeData.search.folder) {
-        this.breadcrumbs.push({
-          disabled: false,
-          text: this.storeData.search.folder,
-          to: {
-            name: 'home_folder',
-            path: '/home/' + this.storeData.search.folder,
-            params: { folder: this.storeData.search.folder },
-          },
-        });
-      }
+      this.showBreadCrumbs();
       this.loadFolder();
     },
     data () {
@@ -125,12 +83,60 @@
     },
     methods: {
       ...mapMutations(['setStoreData']),
-      addBreadcrumb(text, href) {
+      showBreadCrumbs() {
+        this.breadcrumbs = [];
         this.breadcrumbs.push({
-          text: text,
           disabled: false,
-          href: href
+          text: this.$t('home.title'),
+          to: { name: 'home_redirect' },
         });
+        if (this.storeData.search.q) {
+          this.breadcrumbs.push({
+            disabled: false,
+            text: this.$t('home.your_search_for') + this.storeData.search.q,
+            to: { name: 'home' },
+          });
+        }
+        if (this.storeData.displayItem.folder) {
+          if (this.storeData.displayItem.folder.parentFolder && this.storeData.displayItem.folder.parentSubfolder) {
+            this.breadcrumbs.push({
+              disabled: false,
+              text: this.storeData.displayItem.folder.parentFolder,
+              to: {
+                name: 'home_folder',
+                path: '/home/' + this.storeData.displayItem.folder.parentFolder,
+                params: { folder: this.storeData.displayItem.folder.parentFolder },
+              },
+            });
+            this.breadcrumbs.push({
+              disabled: false,
+              text: this.storeData.displayItem.folder.parentSubfolder,
+              to: {
+                name: 'home_folder_subfolder',
+                path: '/home/' + this.storeData.displayItem.folder.parentFolder + '/' + this.storeData.displayItem.folder.parentSubfolder,
+                params: { folder: this.storeData.displayItem.folder.parentFolder, subfolder: this.storeData.displayItem.folder.parentSubfolder },
+              },
+            });
+          } else if (this.storeData.displayItem.folder.parentFolder) {
+            this.breadcrumbs.push({
+              disabled: false,
+              text: this.storeData.displayItem.folder.parentFolder,
+              to: {
+                name: 'home_folder',
+                path: '/home/' + this.storeData.displayItem.folder.parentFolder,
+                params: { folder: this.storeData.displayItem.folder.parentFolder },
+              },
+            });
+          }
+          this.breadcrumbs.push({
+            disabled: false,
+            text: this.storeData.displayItem.folder.name,
+            to: {
+              name: 'show',
+              path: '/' + this.storeData.displayItem.folder.dataUrl,
+            },
+          });
+        }
       },
       loadFolder() {
         showItem({
@@ -138,6 +144,7 @@
           id: this.$route.params.id,
         }).then((response) => _get(response, 'data.showItem', {}))
           .then((response) => {
+            console.log(response);
             this.setStoreData({
               'displayItem': {
                 folder: response.folder,
@@ -145,8 +152,6 @@
                 images: response.images,
               }
             });
-            this.addBreadcrumb(this.storeData.displayItem.folder.name,
-              this.storeData.displayItem.folder.dataUrl);
           }).catch((error) => {
             this.$toast.warning(this.$t('error.uknonwn'));
           });
