@@ -83,6 +83,23 @@
     },
     methods: {
       ...mapMutations(['setStoreData']),
+      loadFolder() {
+        showItem({
+          apollo: this.$apollo,
+          id: this.$route.params.id,
+        }).then((response) => _get(response, 'data.showItem', {}))
+          .then((response) => {
+            this.setStoreData({
+              'displayItem': {
+                folder: response.folder,
+                audioFiles: response.audioFiles,
+                images: response.images,
+              }
+            });
+          }).catch((error) => {
+            this.$toast.warning(this.$t('error.uknonwn'));
+          });
+      },
       showBreadCrumbs() {
         this.breadcrumbs = [];
         this.breadcrumbs.push({
@@ -97,64 +114,52 @@
             to: { name: 'home' },
           });
         }
-        if (this.storeData.displayItem.folder) {
-          if (this.storeData.displayItem.folder.parentFolder && this.storeData.displayItem.folder.parentSubfolder) {
-            this.breadcrumbs.push({
-              disabled: false,
-              text: this.storeData.displayItem.folder.parentFolder,
-              to: {
-                name: 'home_folder',
-                path: '/home/' + this.storeData.displayItem.folder.parentFolder,
-                params: { folder: this.storeData.displayItem.folder.parentFolder },
-              },
-            });
-            this.breadcrumbs.push({
-              disabled: false,
-              text: this.storeData.displayItem.folder.parentSubfolder,
-              to: {
-                name: 'home_folder_subfolder',
-                path: '/home/' + this.storeData.displayItem.folder.parentFolder + '/' + this.storeData.displayItem.folder.parentSubfolder,
-                params: { folder: this.storeData.displayItem.folder.parentFolder, subfolder: this.storeData.displayItem.folder.parentSubfolder },
-              },
-            });
-          } else if (this.storeData.displayItem.folder.parentFolder) {
-            this.breadcrumbs.push({
-              disabled: false,
-              text: this.storeData.displayItem.folder.parentFolder,
-              to: {
-                name: 'home_folder',
-                path: '/home/' + this.storeData.displayItem.folder.parentFolder,
-                params: { folder: this.storeData.displayItem.folder.parentFolder },
-              },
-            });
+        if (this.currentFolder) {
+          if (this.currentFolder.parentFolder && this.currentFolder.parentSubfolder) {
+            if (this.currentFolder.parentFolder != 'N/A') {
+              this.breadcrumbs.push({
+                disabled: false,
+                text: this.currentFolder.parentFolder,
+                to: {
+                  name: 'home_folder',
+                  path: '/home/' + this.currentFolder.parentFolder,
+                  params: { folder: this.currentFolder.parentFolder },
+                },
+              });
+            }
+            if (this.currentFolder.parentSubfolder != 'N/A') {
+              this.breadcrumbs.push({
+                disabled: false,
+                text: this.currentFolder.parentSubfolder,
+                to: {
+                  name: 'home_folder_subfolder',
+                  path: '/home/' + this.currentFolder.parentFolder + '/' + this.currentFolder.parentSubfolder,
+                  params: { folder: this.currentFolder.parentFolder, subfolder: this.currentFolder.parentSubfolder },
+                },
+              });
+            }
+          } else if (this.currentFolder.parentFolder) {
+            if (this.currentFolder.parentFolder != 'N/A') {
+              this.breadcrumbs.push({
+                disabled: false,
+                text: this.currentFolder.parentFolder,
+                to: {
+                  name: 'home_folder',
+                  path: '/home/' + this.currentFolder.parentFolder,
+                  params: { folder: this.currentFolder.parentFolder },
+                },
+              });
+            }
           }
           this.breadcrumbs.push({
             disabled: false,
-            text: this.storeData.displayItem.folder.name,
+            text: this.currentFolder.name,
             to: {
               name: 'show',
-              path: '/' + this.storeData.displayItem.folder.dataUrl,
+              path: '/' + this.currentFolder.dataUrl,
             },
           });
         }
-      },
-      loadFolder() {
-        showItem({
-          apollo: this.$apollo,
-          id: this.$route.params.id,
-        }).then((response) => _get(response, 'data.showItem', {}))
-          .then((response) => {
-            console.log(response);
-            this.setStoreData({
-              'displayItem': {
-                folder: response.folder,
-                audioFiles: response.audioFiles,
-                images: response.images,
-              }
-            });
-          }).catch((error) => {
-            this.$toast.warning(this.$t('error.uknonwn'));
-          });
       },
       railsImportExternalUrl(itemId) {
         return 'https://link12.ddns.net:3000/audio_files/' + itemId + '.json';
