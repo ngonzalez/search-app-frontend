@@ -97,7 +97,7 @@
             });
             this.showBreadCrumbs();
           }).catch((error) => {
-            this.$toast.warning(this.$t('error.uknonwn'));
+            this.$toast.warning(this.$t('error.unknonwn'));
           });
       },
       showBreadCrumbs() {
@@ -206,7 +206,7 @@
             }
           })
           .catch((error) => {
-            this.$toast.warning(this.$t('error.uknonwn'));
+            this.$toast.warning(this.$t('error.unknonwn'));
           })
         }, 2000);
       },
