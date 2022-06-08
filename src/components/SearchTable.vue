@@ -159,7 +159,7 @@
 
             // Search
             case 'home_search': {
-              const query = _.last(this.$route.path.split('/'));
+              const query = this.$route.params.q;
               _.assign(this.search, this.defaultSearchParams, { q: query });
               this.handleSearch();
               this.breadcrumbs = [];
